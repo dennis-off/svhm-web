@@ -1,112 +1,100 @@
-# LaunchPad - Official Strapi Demo
+# Schulverein Haseldorfer Marsch – Deine digitale Plattform
 
-![LaunchPad](./LaunchPad.jpg)
+![LaunchPad](./svhm.jpg)
 
-Welcome aboard **LaunchPad**, the official Strapi demo application, where we launch your content into the stratosphere at the speed of  *"we-can't-even-measure-it!"*.
-This repository contains the following:
+Willkommen an Bord! **Schulverein Haseldorfer Marsch**, die offizielle Plattform des Schulvereins, bringt alle Informationen, Dokumente und Links an einem Ort zusammen.
 
-- A Strapi project with content-types and data already onboard
-- A Next.js client that's primed and ready to fetch the content from Strapi faster than you can say "blast off!"
+Dieses Repository enthält:
 
-## 🌌 Get started
+- Ein Strapi-Projekt mit vorgefertigten Inhalten und Daten
+- Eine Next.js-Anwendung, die Inhalte direkt aus Strapi bezieht und dir bereitstellt
 
-Strap yourself in! You can get started with this project on your local machine by following the instructions below, or you can [request a private instance on our website](https://strapi.io/demo)
+## 1. Das Projekt klonen
 
-## 🛠 Prerequisites
-
-Before you take off, make sure you have the right env variables loaded for each part (rocket science at its best):
-
-Strapi (example in `./strapi/.env.example`):
-  - `STRAPI_ADMIN_CLIENT_URL=<url-of-nextjs>`
-  - `STRAPI_ADMIN_CLIENT_PREVIEW_SECRET=<a-random-token>`
-
-- Create a `./strapi/.env` file with these variables
-
-Next.js (example in `./next/.env.sample`):
-  - `NEXT_PUBLIC_API_URL=<url-of-strapi>` (mandatory)
-  - `PREVIEW_SECRET=<the-same-random-token-as-for-strapi>`
-
-- Create a `./next/.env` file with these variables
-
-## 1. Clone Launchpad
-
-To infinity and beyond! 🚀 Clone the repo with this command:
+Klone das Repo mit folgendem Befehl:
 
 ```
-git clone https://github.com/strapi/launchpad.git
+git clone https://github.com/dennis-off/svhm-web.git
 ```
 
-- Navigate to your project folder by running `cd launchpad`.
+- Navigate to your project folder by running `cd svhm-web`.
 
-## 2. Start Strapi
+## 🌟 2. Konfiguration erstellen
 
-Take a deep breath. It's time to power up the Strapi engines. Navigate to your ./my-projects/launchpad/strapi folder by running:
+Leg los! Du kannst die Plattform entweder lokal einrichten, indem du die unten stehenden Anweisungen befolgst, oder du schaust dir die [Webseite live in Aktion an](https://www.schulverein-haseldorfer-marsch.de/).
 
-Navigate to your `./my-projects/launchpad/strapi` folder by running `cd strapi` from your command line.
+Stelle sicher, dass du die richtigen Umgebungsvariablen für jeden Teil geladen hast:
 
-- Run the following command in your `./launchpad/strapi` folder:
+Strapi (Beispiel in `./svhm-strapi/.env.example`):
+
+- `STRAPI_ADMIN_CLIENT_URL=<url-von-nextjs>`
+- `STRAPI_ADMIN_CLIENT_PREVIEW_SECRET=<ein-zufallstoken>`
+
+- Erstelle eine `./svhm-strapi/.env`-Datei mit diesen Variablen.
+
+Next.js (Beispiel in `./svhm-app/.env.sample`):
+
+- `NEXT_PUBLIC_API_URL=<url-von-strapi>` (Pflicht)
+- `PREVIEW_SECRET=<dasselbe-zufallstoken-wie-für-strapi>`
+
+- Erstelle eine `./svhm-app/.env`-Datei mit diesen Variablen.
+
+## 2. Strapi starten
+
+Atme tief durch. Es ist Zeit, die Strapi-Motoren hochzufahren. Navigiere zum `./my-projects/launchpad/strapi`-Ordner, indem du den folgenden Befehl ausführst:
+
+Navigiere zu deinem `./my-projects/launchpad/strapi`-Ordner mit `cd strapi` in der Kommandozeile.
+
+- Führe folgenden Befehl im `./svhm-web/svhm-strapi`-Ordner aus:
 
 ```
 yarn && yarn seed && yarn develop
 ```
 
-This will install dependencies, sprinkle in some data magic, and run the server. (You can run these commands separately, but why not be efficient?)
+Dies installiert die Abhängigkeiten, fügt die initialien Daten hinzu und startet den Server. (Du kannst die Befehle auch einzeln ausführen, aber warum nicht effizient sein?)
 
-## 3. Start Next.js
+## 3. Next.js starten
 
-We're almost ready for lift-off! Next.js is your sleek, futuristic interface for getting all that glorious content out into the world. 🚀
+Wir sind fast bereit zum Abheben! Next.js ist deine schlanke, futuristische Schnittstelle, um all den großartigen Inhalt in die Welt zu bringen. 🚀
 
-Navigate to your `./my-projects/launchpad/next` folder by running `cd next` from your command line.
+Navigiere zum `./my-projects/launchpad/next`-Ordner, indem du den folgenden Befehl ausführst:
 
-- Run the following command in your `./launchpad/next` folder
+Navigiere zu deinem `./my-projects/launchpad/next`-Ordner mit `cd next` in der Kommandozeile.
+
+- Führe folgenden Befehl im `./launchpad/next`-Ordner aus:
 
 ```
 yarn && yarn build && yarn start
 ```
 
-This installs dependencies, builds your project, and starts your server. You’re now a spacefaring content master!
+Dies installiert die Abhängigkeiten, baut dein Projekt und startet den Server. Du bist jetzt bereit!
 
-## Features Overview ✨
+## Überblick über die Funktionen ✨
 
-### User
+### Benutzer
 
 <br />
 
 **An intuitive, minimal editor** The editor allows you to pull in dynamic blocks of content. It’s 100% open-source, and it’s fully extensible.<br />
-**Media Library** Upload images, video or any files and crop and optimize their sizes, without quality loss.<br />
-**Flexible content management** Build any type of category, section, format or flow to adapt to your needs. <br />
-**Sort and Filter** Built-in sorting and filtering: you can manage thousands of entries without effort.<br />
-**User-friendly interface** The most user-friendly open-source interface on the market.<br />
-**SEO optimized** Easily manage your SEO metadata with a repeatable field and use our Media Library to add captions, notes, and custom filenames to optimize the SEO of media assets.<br /><br />
 
 ### Global
 
 <br />
 
 [Customizable API](https://strapi.io/features/customizable-api): Automatically build out the schema, models, controllers for your API from the editor. Get REST or GraphQL API out of the box without writing a single line of code.<br />
-[Media Library](https://strapi.io/features/media-library): The media library allows you to store your images, videos and files in your Strapi admin panel with many ways to visualize and manage them.<br />
-[Role-Based Access Control (RBAC)](https://strapi.io/features/custom-roles-and-permissions): Role-Based Access Control is a feature available in the Administration Panel settings that let your team members have access rights only to the information they need.<br />
-[Internationalization (i18n)](https://strapi.io/features/internationalization): Internationalization (i18n) lets you create many content versions, also called locales, in different languages and for different countries.<br />
-[Audit Logs](https://strapi.io/blog/reasons-and-best-practices-for-using-audit-logs-in-your-application)The Audit Logs section provides a searchable and filterable display of all activities performed by users of the Strapi application<br />
-[Data transfer](https://strapi.io/blog/importing-exporting-and-transferring-data-with-the-strapi-cli) Streams your data from one Strapi instance to another Strapi instance.<br />
-[Review Worfklows](https://docs.strapi.io/user-docs/settings/review-workflows) Create and manage any desired review stages for your content, enabling your team to collaborate in the content creation flow from draft to publication. <br />
-
 
 ## Resources
 
-[Docs](https://docs.strapi.io) • [Demo](https://strapi.io/demo) • [Forum](https://forum.strapi.io/) • [Discord](https://discord.strapi.io) • [Youtube](https://www.youtube.com/c/Strapi/featured) • [Strapi Design System](https://design-system.strapi.io/) • [Marketplace](https://market.strapi.io/) • [Clou Free Trial](https://cloud.strapi.io) 
+[Docs](https://docs.strapi.io)
 
 ## Todo
 
-- [ ] Implement the official Strapi SEO plugin
-- [ ] Implement the community Strapi preview plugin
-- [ ] Create localized content for the pricing plans and products
-- [ ] Populate creator fields when it'll work on Strapi 5 (article authors information are missing)
+- [ ] Shop
 
 ## Customization
 
-- The Strapi application contains a custom population middleware in order to populate more data than what it is set by default. You can find it in the `./strapi/src/middlewares/deepPopulate.ts` file.
+- Die Strapi-Anwendung enthält eine benutzerdefinierte Middleware, um mehr Daten zu befüllen als standardmäßig vorgesehen. Du findest sie in der Datei `./strapi/src/middlewares/deepPopulate.ts`.
 
-- The Strapi application contains a postinstall script that will regenerate an uuid for the project in order to get some anonymous usage information concerning this demo. You can disable it by removing the uuid inside the `./strapi/packages.json` file.
+- Die Strapi-Anwendung enthält ein Postinstall-Skript, das eine UUID für das Projekt neu generiert, um anonyme Nutzungsinformationen für diese Demo zu sammeln. Du kannst es deaktivieren, indem du die UUID in der Datei `./strapi/packages.json` entfernst.
 
-- The Strapi application contains a patch for the @strapi/admin package. It is only necessary for the hosted demos since we automatically create the Super Admin users for them when they request this demo on our website.
+- Die Strapi-Anwendung enthält einen Patch für das Paket @strapi/admin. Dies ist nur für die gehosteten Demos notwendig, da wir automatisch Super-Admin-Benutzer für diese erstellen, wenn sie diese Demo auf unserer Website anfordern.
