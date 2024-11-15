@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "statutes",
+  "info": {
+    "singularName": "statute",
+    "pluralName": "statutes",
+    "displayName": "Statutes",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.section"
+    },
+    "content": {
+      "type": "richtext"
+    }
+  }
+}

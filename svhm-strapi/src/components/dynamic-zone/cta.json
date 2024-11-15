@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_dynamic_zone_ctas",
+  "info": {
+    "displayName": "CTA",
+    "icon": "cursor",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "sub_heading": {
+      "type": "text",
+      "required": true
+    },
+    "CTAs": {
+      "displayName": "Button",
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.button"
+    }
+  }
+}

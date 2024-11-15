@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_shared_buttons",
+  "info": {
+    "displayName": "Button",
+    "icon": "cursor",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "URL": {
+      "type": "string",
+      "required": true
+    },
+    "target": {
+      "type": "enumeration",
+      "enum": [
+        "_blank",
+        "_self",
+        "_parent",
+        "_top"
+      ],
+      "required": true
+    },
+    "variant": {
+      "type": "enumeration",
+      "enum": [
+        "simple",
+        "outline",
+        "primary",
+        "muted"
+      ],
+      "default": "primary",
+      "required": true
+    }
+  }
+}
