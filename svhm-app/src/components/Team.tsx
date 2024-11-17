@@ -152,7 +152,7 @@ export const Team = () => {
                       href={url}
                       target="_blank"
                       className={buttonVariants({
-                        variant: "ghost",
+                        variant: "muted",
                         size: "sm",
                       })}
                     >

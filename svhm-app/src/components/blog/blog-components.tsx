@@ -257,35 +257,39 @@ export function BlogPostRow({
       params={{
         slug: article?.slug || "Undefined",
       }}
-      className="group flex flex-row items-stretch py-4"
+      className="group flex flex-row py-4"
     >
-      <div className="flex overflow-hidden">
-        <img
-          className="h-32 w-32 rounded-lg object-cover object-center transition-all duration-500 ease-in-out [mask-image:radial-gradient(circle,white,transparent)] group-hover:scale-110 group-hover:blur-none"
-          src={strapiImage(article.image.url)}
-          alt=""
-        />
-      </div>
+      <div
+      className="relative flex flex-grow flex-col p-2 sm:flex-row overflow-hidden rounded-lg"
+        style={{
+          backgroundImage: `url(${strapiImage(article.image.url)})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-neutral-100/60 backdrop-blur-lg dark:bg-gray-800/60"></div>
 
-      <div className="grid grid-rows-[auto,1fr,auto] p-4">
-        <div className="flex flex-row">
-          <p className="w-auto border-b-2 border-transparent text-lg font-medium text-foreground transition duration-200 group-hover:border-primary">
-            {article.title}
-          </p>
+        <div className="z-10 mx-2 mt-2 flex overflow-hidden">
+          <img
+            className="h-32 w-32 rounded-lg object-cover object-center transition-all duration-500 ease-in-out group-hover:scale-110"
+            src={strapiImage(article.image.url)}
+            alt=""
+          />
         </div>
-        <p className="mt-2 max-w-xl text-sm text-muted-foreground transition duration-200 group-hover:text-foreground">
-          {truncate(article?.description || "Undefined", 80)}
-        </p>
 
-        <BlogDate article={article} />
+        <div className="z-10 grid grid-rows-[auto,1fr,auto] p-2">
+          <div className="flex flex-row">
+            <p className="w-auto border-b-2 border-transparent text-lg font-medium text-foreground transition duration-200 group-hover:border-primary">
+              {article.title}
+            </p>
+          </div>
+          <p className="mt-2 max-w-xl text-sm text-foreground transition duration-200">
+            {truncate(article?.description || "Undefined", 80)}
+          </p>
+
+          <BlogDate article={article} />
+        </div>
       </div>
-      {/* <Image
-        src={blog.authorAvatar}
-        alt={blog.author}
-        width={40}
-        height={40}
-        className="rounded-full md:h-10 md:w-10 h-6 w-6 mt-4 md:mt-0 object-cover"
-      /> */}
     </Link>
   );
 }

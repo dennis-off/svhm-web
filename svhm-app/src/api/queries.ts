@@ -1,4 +1,3 @@
-import { Component } from "react";
 import { client } from ".";
 import { components } from "./strapi";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { ArrowUpRight, Menu } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -56,17 +56,23 @@ export const Navbar = ({ data }: { data: any }) => {
               <SheetContent side={"left"}>
                 <SheetHeader>
                   <SheetTitle className="text-xl font-bold">
-                    Schulverein Haseldorfer Marsch
+                    <div className="flex flex-col items-start">
+                      <span className="text-xl font-bold">Schulverein</span>
+                      <span className="-my-2 text-xl font-bold">
+                        Haseldorfer
+                      </span>
+                      <span className="text-xl font-bold">Marsch</span>
+                    </div>
                   </SheetTitle>
                 </SheetHeader>
-                <nav className="mt-4 flex flex-col items-center justify-center gap-2">
+                <nav className="mt-4 flex flex-col items-start justify-center gap-2">
                   {data?.left_navbar_items.map(
                     (route: NavbarItemProps, i: number) => (
                       <Link
                         rel="noreferrer noopener"
                         to={route.URL}
                         key={i}
-                        className={`text-[17px] ${buttonVariants({
+                        className={`text-[32px] ${buttonVariants({
                           variant: "muted",
                         })}`}
                         target={route.target}
@@ -76,17 +82,21 @@ export const Navbar = ({ data }: { data: any }) => {
                       </Link>
                     )
                   )}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "muted",
-                    })}`}
+                  <Link
+                    to="/contact"
+                    target="_self"
+                    className={`flex w-[110px] flex-row border ${buttonVariants(
+                      {
+                        variant: "primary",
+                      }
+                    )}`}
+                    onClick={() => setIsOpen(false)}
                   >
-                    <GitHubLogoIcon className="mr-2 h-5 w-5" />
-                    Github
-                  </a>
+                    <div className="flex flex-row">
+                      Kontakt
+                      <ArrowUpRight className="size-5" />
+                    </div>
+                  </Link>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -112,15 +122,18 @@ export const Navbar = ({ data }: { data: any }) => {
           </nav>
 
           <div className="hidden gap-2 md:flex">
-            <a
-              rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
-              className={`border ${buttonVariants({ variant: "muted" })}`}
+            <Link
+              to="/contact"
+              target="_self"
+              className={`flex w-[110px] flex-row border ${buttonVariants({
+                variant: "primary",
+              })}`}
             >
-              <GitHubLogoIcon className="mr-2 h-5 w-5" />
-              Github
-            </a>
+              <div className="flex flex-row">
+                Kontakt
+                <ArrowUpRight className="size-5" />
+              </div>
+            </Link>
 
             <ModeToggle />
           </div>

@@ -1,9 +1,9 @@
 import { FormEvent, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BiDonateHeart } from "react-icons/bi";
-import { LuGlobe, LuMail } from "react-icons/lu";
+import { LuMail } from "react-icons/lu";
 import { addServiceRequest } from "@/api/queries";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -54,11 +54,11 @@ function Contact() {
         </h2>
       </div>
 
-      <div className="flex flex-1 flex-col pb-8 lg:flex-row lg:pb-32">
+      <div className=" flex flex-1 flex-col pb-8 lg:flex-row lg:pb-32">
         {/* first column */}
-        <div className="z-10 mx-auto flex flex-col gap-4 p-4">
+        <div className="z-10 flex flex-col gap-4 p-4">
           <Card className="">
-            <CardHeader className="flex flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <LuMail className="size-8" />
               </div>
@@ -75,7 +75,7 @@ function Contact() {
           </Card>
 
           <Card className="">
-            <CardHeader className="flex flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <BiDonateHeart className="size-8" />
               </div>
@@ -93,7 +93,7 @@ function Contact() {
           </Card>
 
           <Card className="">
-            <CardHeader className="flex flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <BiDonateHeart className="size-8" />
               </div>
@@ -114,7 +114,7 @@ function Contact() {
         {/* second column */}
         <form
           onSubmit={handleSubmit}
-          className="z-10 m-4 flex flex-grow flex-col gap-8 rounded-2xl border-[12px] border-primary p-4 pt-8"
+          className="z-10 mx-auto p-4 flex flex-grow flex-col gap-4 rounded-2xl border-[2px] lg:border-[12px] border-primary lg:pt-8"
         >
           <h2 className="flex text-center text-3xl font-semibold md:text-4xl lg:text-start">
             Du hast ein Anliegen? Schreibe uns direkt!
@@ -137,7 +137,7 @@ function Contact() {
           />
           {error && <p className="mb-2 text-sm text-red-500">{error}</p>}
 
-          <span className="text-lg">Erzähle uns etwas über dein Anliegen</span>
+          <span className="text-lg hidden lg:visible">Erzähle uns etwas über dein Anliegen</span>
 
           <Textarea
             value={message}

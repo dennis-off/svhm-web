@@ -2,7 +2,7 @@ import logo from "../assets/logo_small.png";
 
 export const About = () => {
   return (
-    <section id="about" className="container py-24 sm:py-32">
+    <section id="about" className="container py-4 sm:py-32">
       <div className="rounded-lg border bg-muted/50 py-12">
         <div className="flex flex-col-reverse items-center gap-8 px-6 md:flex-row md:gap-12">
           <img

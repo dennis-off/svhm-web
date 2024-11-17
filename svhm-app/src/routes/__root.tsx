@@ -61,9 +61,9 @@ export const Route = createRootRoute({
             <Footer data={global?.footer} />
           </StickyFooter>
           <StrapiSEO seo={global?.seo} />
-          <Suspense>
+          {/*<Suspense>
             <TanStackRouterDevtools />
-          </Suspense>
+          </Suspense>*/}
         </ThemeProvider>
       </>
     );
