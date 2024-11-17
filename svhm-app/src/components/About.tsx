@@ -1,10 +1,28 @@
 import logo from "../assets/logo_small.png";
+import { motion } from "framer-motion";
 
 export const About = () => {
   return (
-    <section id="about" className="container py-4 sm:py-32">
-      <div className="rounded-lg border bg-muted/50 py-12">
+    <section id="about" className="container py-4 sm:py-32"
+    >
+      <motion.div className="rounded-lg border bg-muted/50 py-12"
+        initial={{
+          opacity: 0,
+          // if odd index card,slide from right instead of left
+          x: 150
+        }}
+        whileInView={{
+          opacity: 1,
+          x: 0, // Slide in to its original position
+          transition: {
+            duration: 0.4, // Animation duration
+            delay: 0.2
+          }
+        }}
+        viewport={{ once: true }}
+      >
         <div className="flex flex-col-reverse items-center gap-8 px-6 md:flex-row md:gap-12">
+          
           <img
             src={logo}
             alt=""
@@ -36,8 +54,8 @@ export const About = () => {
 
             {/*<Statistics />*/}
           </div>
-        </div>
       </div>
+      </motion.div>
     </section>
   );
 };
