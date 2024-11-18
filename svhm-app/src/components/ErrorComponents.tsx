@@ -1,5 +1,6 @@
 import { IconContext } from "react-icons";
 import { LuBedDouble, LuFrown } from "react-icons/lu";
+import { Spinner } from "@/components/ui/spinner";
 
 export function GeneralError() {
   return (
@@ -19,6 +20,16 @@ export function GeneralError() {
           gelaufen.
         </h2>
       </div>
+    </div>
+  );
+}
+
+export function IsLoading() {
+  return (
+    <div className="min-h-screen">
+      <section className="container py-8 lg:py-32">
+        <Spinner size="large" />
+      </section>
     </div>
   );
 }

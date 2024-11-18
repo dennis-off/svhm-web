@@ -6,11 +6,11 @@ import {
   getProtocols,
   getResourcesPage,
 } from "@/api/queries";
+import { strapiImage } from "@/api/strapiImage";
 import { Cta } from "@/components/dynamic-zone/Cta";
 import { GeneralError } from "@/components/ErrorComponents";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { strapiImage } from "@/lib/strapi/strapiImage";
 import { extractWords, truncate } from "@/lib/utils";
 
 export const Route = createFileRoute("/resources")({

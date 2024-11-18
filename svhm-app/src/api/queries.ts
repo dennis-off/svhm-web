@@ -51,6 +51,22 @@ export async function getArticles(
   return articles?.data;
 }
 
+export async function getArticle(slug: string) {
+  const article = await client.GET("/articles", {
+    cache: "no-cache",
+    params: {
+      query: {
+        filters: {
+          slug: {
+            $eq: slug,
+          },
+        },
+      },
+    },
+  });
+  return article?.data?.data ? article.data.data[0] : null;
+}
+
 export async function getBlogPage() {
   const blogPage = await client.GET("/blog-page", {
     cache: "no-cache",
@@ -175,4 +191,18 @@ export async function addServiceRequest() {
   });
 
   return response?.data?.data;
+}
+
+export async function getStatutePage() {
+  const statutePage = await client.GET("/statute", {
+    cache: "no-cache",
+  });
+  return statutePage?.data?.data;
+}
+
+export async function getImpressumPage() {
+  const impressumPage = await client.GET("/impressum", {
+    cache: "no-cache",
+  });
+  return impressumPage?.data?.data;
 }

@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_dynamic_zone_heroes",
+  "info": {
+    "displayName": "Hero",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.section",
+      "required": true
+    },
+    "flipWords": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.flip-word",
+      "required": true
+    },
+    "CTAs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.button"
+    }
+  }
+}

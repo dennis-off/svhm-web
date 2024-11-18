@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { getMembers, getTeamPage } from "@/api/queries";
 import { components } from "@/api/strapi";
+import { strapiImage } from "@/api/strapiImage";
 import { Cta } from "@/components/dynamic-zone/Cta";
 import { GeneralError } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
@@ -13,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { strapiImage } from "@/lib/strapi/strapiImage";
 import { extractWords } from "@/lib/utils";
 
 export const Route = createFileRoute("/team")({

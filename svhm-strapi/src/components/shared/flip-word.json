@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_flip_words",
+  "info": {
+    "displayName": "FlipWord"
+  },
+  "options": {},
+  "attributes": {
+    "word": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

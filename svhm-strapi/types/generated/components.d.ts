@@ -14,6 +14,21 @@ export interface DynamicZoneCta extends Struct.ComponentSchema {
   };
 }
 
+export interface DynamicZoneHero extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_heroes';
+  info: {
+    description: '';
+    displayName: 'Hero';
+  };
+  attributes: {
+    CTAs: Schema.Attribute.Component<'shared.button', true>;
+    flipWords: Schema.Attribute.Component<'shared.flip-word', true> &
+      Schema.Attribute.Required;
+    section: Schema.Attribute.Component<'shared.section', false> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface DynamicZoneRelatedArticles extends Struct.ComponentSchema {
   collectionName: 'components_dynamic_zone_related_articles';
   info: {
@@ -75,6 +90,16 @@ export interface SharedButton extends Struct.ComponentSchema {
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'primary'>;
+  };
+}
+
+export interface SharedFlipWord extends Struct.ComponentSchema {
+  collectionName: 'components_shared_flip_words';
+  info: {
+    displayName: 'FlipWord';
+  };
+  attributes: {
+    word: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -154,10 +179,12 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'dynamic-zone.cta': DynamicZoneCta;
+      'dynamic-zone.hero': DynamicZoneHero;
       'dynamic-zone.related-articles': DynamicZoneRelatedArticles;
       'global.footer': GlobalFooter;
       'global.navbar': GlobalNavbar;
       'shared.button': SharedButton;
+      'shared.flip-word': SharedFlipWord;
       'shared.link': SharedLink;
       'shared.member': SharedMember;
       'shared.section': SharedSection;

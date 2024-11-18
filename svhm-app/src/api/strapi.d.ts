@@ -244,6 +244,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/landing-page": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get/landing-page"];
+        put: operations["put/landing-page"];
+        post?: never;
+        delete: operations["delete/landing-page"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/members": {
         parameters: {
             query?: never;
@@ -3321,7 +3337,7 @@ export interface components {
         ImpressumRequest: {
             data: {
                 seo?: components["schemas"]["SharedSeoComponent"];
-                content?: string;
+                content: string;
                 section?: components["schemas"]["SharedSectionComponent"];
                 locale?: string;
                 localizations?: (number | string)[];
@@ -3342,7 +3358,7 @@ export interface components {
             id?: number;
             documentId?: string;
             seo?: components["schemas"]["SharedSeoComponent"];
-            content?: string;
+            content: string;
             section?: components["schemas"]["SharedSectionComponent"];
             /** Format: date-time */
             createdAt?: string;
@@ -3389,6 +3405,85 @@ export interface components {
         ImpressumResponse: {
             data?: components["schemas"]["Impressum"];
             meta?: Record<string, never>;
+        };
+        LandingPageRequest: {
+            data: {
+                seo?: components["schemas"]["SharedSeoComponent"];
+                hero: components["schemas"]["DynamicZoneHeroComponent"];
+                locale?: string;
+                localizations?: (number | string)[];
+            };
+        };
+        LandingPageListResponse: {
+            data?: components["schemas"]["LandingPage"][];
+            meta?: {
+                pagination?: {
+                    page?: number;
+                    pageSize?: number;
+                    pageCount?: number;
+                    total?: number;
+                };
+            };
+        };
+        LandingPage: {
+            id?: number;
+            documentId?: string;
+            seo?: components["schemas"]["SharedSeoComponent"];
+            hero: components["schemas"]["DynamicZoneHeroComponent"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: date-time */
+            publishedAt?: string;
+            createdBy?: {
+                id?: number;
+                documentId?: string;
+            };
+            updatedBy?: {
+                id?: number;
+                documentId?: string;
+            };
+            locale?: string;
+            localizations?: {
+                id?: number;
+                documentId?: string;
+                seo?: components["schemas"]["SharedSeoComponent"];
+                hero?: components["schemas"]["DynamicZoneHeroComponent"];
+                /** Format: date-time */
+                createdAt?: string;
+                /** Format: date-time */
+                updatedAt?: string;
+                /** Format: date-time */
+                publishedAt?: string;
+                createdBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                updatedBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                locale?: string;
+                localizations?: {
+                    id?: number;
+                    documentId?: string;
+                }[];
+            }[];
+        };
+        LandingPageResponse: {
+            data?: components["schemas"]["LandingPage"];
+            meta?: Record<string, never>;
+        };
+        SharedFlipWordComponent: {
+            id?: number;
+            word?: string;
+        };
+        DynamicZoneHeroComponent: {
+            id?: number;
+            section?: components["schemas"]["SharedSectionComponent"];
+            flipWords?: components["schemas"]["SharedFlipWordComponent"][];
+            CTAs?: components["schemas"]["SharedButtonComponent"][];
         };
         MemberRequest: {
             data: {
@@ -4131,7 +4226,7 @@ export interface components {
             data: {
                 seo?: components["schemas"]["SharedSeoComponent"];
                 section?: components["schemas"]["SharedSectionComponent"];
-                content?: string;
+                content: string;
                 locale?: string;
                 localizations?: (number | string)[];
             };
@@ -4152,7 +4247,7 @@ export interface components {
             documentId?: string;
             seo?: components["schemas"]["SharedSeoComponent"];
             section?: components["schemas"]["SharedSectionComponent"];
-            content?: string;
+            content: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -7334,6 +7429,228 @@ export interface operations {
         };
     };
     "delete/impressum": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": number;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    "get/landing-page": {
+        parameters: {
+            query?: {
+                /** @description Sort by attributes ascending (asc) or descending (desc) */
+                sort?: string;
+                /** @description Return page/pageSize (default: true) */
+                "pagination[withCount]"?: boolean;
+                /** @description Page number (default: 0) */
+                "pagination[page]"?: number;
+                /** @description Page size (default: 25) */
+                "pagination[pageSize]"?: number;
+                /** @description Offset value (default: 0) */
+                "pagination[start]"?: number;
+                /** @description Number of entities to return (default: 25) */
+                "pagination[limit]"?: number;
+                /** @description Fields to return (ex: title,author) */
+                fields?: string;
+                /** @description Relations to return */
+                populate?: string;
+                /** @description Filters to apply */
+                filters?: {
+                    [key: string]: unknown;
+                };
+                /** @description Locale to apply */
+                locale?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LandingPageResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    "put/landing-page": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LandingPageRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LandingPageResponse"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Error"];
+                };
+            };
+        };
+    };
+    "delete/landing-page": {
         parameters: {
             query?: never;
             header?: never;

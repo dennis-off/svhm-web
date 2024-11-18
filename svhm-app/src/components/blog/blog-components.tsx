@@ -5,8 +5,8 @@ import { format } from "date-fns";
 import FuzzySearch from "fuzzy-search";
 import { LuArrowLeft } from "react-icons/lu";
 import { components } from "@/api/strapi";
+import { strapiImage } from "@/api/strapiImage";
 import { Card, CardTitle } from "@/components/ui/card";
-import { strapiImage } from "@/lib/strapi/strapiImage";
 import { truncate } from "@/lib/utils";
 
 export function BackToBlog() {
@@ -260,7 +260,7 @@ export function BlogPostRow({
       className="group flex flex-row py-4"
     >
       <div
-      className="relative flex flex-grow flex-col p-2 sm:flex-row overflow-hidden rounded-lg"
+        className="relative flex flex-grow flex-col overflow-hidden rounded-lg p-2 sm:flex-row"
         style={{
           backgroundImage: `url(${strapiImage(article.image.url)})`,
           backgroundSize: "cover",

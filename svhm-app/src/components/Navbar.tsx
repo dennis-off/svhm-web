@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu } from "lucide-react";
 import {

@@ -1,10 +1,10 @@
 {
   "kind": "singleType",
-  "collectionName": "impressums",
+  "collectionName": "landing_pages",
   "info": {
-    "singularName": "impressum",
-    "pluralName": "impressums",
-    "displayName": "Impressum",
+    "singularName": "landing-page",
+    "pluralName": "landing-pages",
+    "displayName": "LandingPage",
     "description": ""
   },
   "options": {
@@ -17,14 +17,11 @@
       "repeatable": false,
       "component": "shared.seo"
     },
-    "content": {
-      "type": "richtext",
-      "required": true
-    },
-    "section": {
+    "hero": {
       "type": "component",
       "repeatable": false,
-      "component": "shared.section"
+      "component": "dynamic-zone.hero",
+      "required": true
     }
   }
 }
