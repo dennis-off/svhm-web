@@ -88,7 +88,7 @@ function FAQs() {
         </div>
       </section>
 
-      <Cta cta={faqPage?.cta} />
+      {faqPage?.cta ? <Cta cta={faqPage.cta} /> : null}
 
       <StrapiSEO seo={faqPage?.seo} />
     </div>

@@ -6,13 +6,16 @@ import {
   ScrollRestoration,
 } from "@tanstack/react-router";
 import { getGlobal } from "@/api/queries";
-import NotFoundComponent, { GeneralError } from "@/components/ErrorComponents";
+import {
+  GeneralError,
+  IsLoading,
+  NotFoundComponent,
+} from "@/components/ErrorComponents";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import StickyFooter from "@/components/sticky-footer/sticky-footer";
 import { StrapiSEO } from "@/components/StrapiSeo";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
-import { Spinner } from "@/components/ui/spinner";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
@@ -42,13 +45,7 @@ export const Route = createRootRoute({
     }
 
     if (isPending) {
-      return (
-        <div className="min-h-screen">
-          <section className="container py-8 lg:py-32">
-            <Spinner size="large" />
-          </section>
-        </div>
-      );
+      return <IsLoading />;
     }
 
     return (

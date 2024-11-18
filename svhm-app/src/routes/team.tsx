@@ -124,7 +124,7 @@ function Events() {
         </div>
       </section>
 
-      <Cta cta={teamPage?.cta} />
+      {teamPage?.cta ? <Cta cta={teamPage.cta} /> : null}
 
       <StrapiSEO seo={teamPage?.seo} />
     </div>

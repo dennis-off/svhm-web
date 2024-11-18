@@ -14,4 +14,5 @@ const client = createClient<paths>({
     });
   },
 });
+
 export { client };

@@ -4,8 +4,6 @@ import { Cta } from "@/components/Cta";
 import { FAQ } from "@/components/FAQ";
 import { Features } from "@/components/Features";
 import { Hero } from "@/components/Hero";
-import { Newsletter } from "@/components/Newsletter";
-import { Pricing } from "@/components/Pricing";
 import { Services } from "@/components/Services";
 import { Team } from "@/components/Team";
 import { WhatWeDo } from "@/components/WhatWeDo";
@@ -27,8 +25,6 @@ function Index() {
       <Services />
       <Cta />
       <Team />
-      <Pricing />
-      <Newsletter />
       <FAQ />
     </>
   );

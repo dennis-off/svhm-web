@@ -15,8 +15,8 @@ export function StrapiSEO({
       lang="de"
       openGraph={{
         ogImage: {
-          ogImage: "http://placekitten.com/1200/630",
-          ogImageAlt: "Kittens",
+          ogImage: "/src/assets/svhm-landing-page-light.png",
+          ogImageAlt: "landing page",
           ogImageWidth: 1200,
           ogImageHeight: 630,
           ogImageType: "image/jpeg",
@@ -24,9 +24,9 @@ export function StrapiSEO({
       }}
       twitter={{
         twitterSummaryCard: {
-          summaryCardImage: "http://placekitten.com/1200/630",
-          summaryCardImageAlt: "Kittens",
-          summaryCardSiteUsername: "justinmahar",
+          summaryCardImage: "/src/assets/svhm-landing-page-light.png",
+          summaryCardImageAlt: "landing page",
+          summaryCardSiteUsername: "",
         },
       }}
     />

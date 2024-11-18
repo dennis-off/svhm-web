@@ -34,7 +34,7 @@ export function IsLoading() {
   );
 }
 
-export default function NotFoundComponent() {
+export function NotFoundComponent() {
   return (
     <div className="flex h-screen flex-col items-center justify-start py-32">
       <div className="flex flex-col items-center justify-center">

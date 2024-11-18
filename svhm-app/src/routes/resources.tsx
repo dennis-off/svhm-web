@@ -8,9 +8,8 @@ import {
 } from "@/api/queries";
 import { strapiImage } from "@/api/strapiImage";
 import { Cta } from "@/components/dynamic-zone/Cta";
-import { GeneralError } from "@/components/ErrorComponents";
+import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
 import { extractWords, truncate } from "@/lib/utils";
 
 export const Route = createFileRoute("/resources")({
@@ -40,13 +39,7 @@ function Resources() {
   }
 
   if (isPending) {
-    return (
-      <div className="min-h-screen">
-        <section className="container py-8 lg:py-32">
-          <Spinner size="large" />
-        </section>
-      </div>
-    );
+    return <IsLoading />;
   }
 
   const { firstWord, middleWords, lastWord } = extractWords(
@@ -159,7 +152,7 @@ function Resources() {
         </div>
       </section>
 
-      <Cta cta={data.resourcesPage?.cta} />
+      {data.resourcesPage?.cta ? <Cta cta={data.resourcesPage.cta} /> : null}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 export const Cta = ({
   cta,
 }: {
-  cta?: components["schemas"]["DynamicZoneCtaComponent"];
+  cta: components["schemas"]["DynamicZoneCtaComponent"];
 }) => {
   const navigate = useNavigate();
 

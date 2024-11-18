@@ -1,115 +1,74 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { getEvents, getEventsPage } from "@/api/queries";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components//ui/card";
 import { Cta } from "@/components/dynamic-zone/Cta";
-import { GeneralError } from "@/components/ErrorComponents";
-import { Spinner } from "@/components/ui/spinner";
-import { extractWords } from "@/lib/utils";
+import { GeneralError, IsLoading } from "@/components/ErrorComponents";
+import { EventCard } from "@/components/Events/EventCard";
+import { Heading } from "@/components/Heading";
+import { SubHeading } from "@/components/SubHeading";
 
 export const Route = createFileRoute("/events")({
   component: Events,
 });
 
 function Events() {
-  const {
-    isError: eventsIsError,
-    isPending: eventsIsPending,
-    data: events,
-  } = useQuery({
-    queryKey: ["getEvents"],
-    queryFn: () => getEvents(),
+  // get all data
+  const { isError, isPending, data } = useQuery({
+    queryKey: ["getEventDataAll"],
+    queryFn: async () => {
+      const [events, page] = await Promise.all([getEvents(), getEventsPage()]);
+
+      return { events, page };
+    },
   });
 
-  const {
-    isError: pageIsError,
-    isPending: pageIsPending,
-    data: eventPage,
-  } = useQuery({
-    queryKey: ["getEventsPage"],
-    queryFn: () => getEventsPage(),
-  });
-
-  if (eventsIsError || pageIsError) {
+  if (isError) {
     return <GeneralError />;
   }
 
-  if (eventsIsPending || pageIsPending) {
-    return (
-      <div className="min-h-screen">
-        <section className="container py-8 lg:py-32">
-          <Spinner size="large" />
-        </section>
-      </div>
-    );
+  if (isPending) {
+    return <IsLoading />;
   }
 
-  const { firstWord, middleWords, lastWord } = extractWords(
-    eventPage?.section.heading
-  );
+  if (!data.page || !data.events) {
+    return <GeneralError />;
+  }
+
+  const page = data.page;
+  const events = data.events;
 
   return (
     <div className="min-h-screen">
-      <section className="container py-8 lg:py-32">
-        <h2 className="text-center text-3xl font-bold md:text-4xl lg:text-start">
-          <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] bg-clip-text text-transparent">
-            {firstWord}{" "}
-          </span>
-          {middleWords.join(" ")}{" "}
-          <span className="bg-gradient-to-b from-primary/60 to-primary bg-clip-text text-transparent">
-            {lastWord}
-          </span>
-        </h2>
+      <section className="container gap-8 py-8 lg:py-32">
+        <Heading heading={page.section.heading} />
+        <SubHeading sub_heading={page.section.sub_heading} />
 
-        <div className="gap-8">
-          <p className="mb-8 mt-4 text-center text-xl text-muted-foreground lg:text-start">
-            {eventPage?.section.sub_heading}
-          </p>
-
-          <div className="flex flex-col gap-8">
-            {events?.map((event) => (
-              <Card key={event.documentId}>
-                <CardHeader className="flex items-start justify-start gap-4 space-y-1 md:flex-row">
-                  <div className="m-1 rounded-2xl bg-primary/20 p-1">
-                    {(() => {
-                      const abbr = new Intl.DateTimeFormat("de-DE", {
-                        weekday: "short",
-                      }).format(new Date(event.datetime));
-                      const day = new Intl.DateTimeFormat("de-DE", {
-                        day: "2-digit",
-                        month: "2-digit",
-                      }).format(new Date(event.datetime));
-                      return (
-                        <div className="flex h-24 w-24 flex-col">
-                          <p className="mx-4 flex items-center justify-center border-b-[1px] border-muted-foreground text-xl font-bold">
-                            {abbr}
-                          </p>
-                          <p className="mx-4 flex flex-grow items-center justify-center text-2xl font-bold">
-                            {day}
-                          </p>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                  <div>
-                    <CardTitle>{event.name}</CardTitle>
-                    <CardDescription className="text-md mt-2">
-                      {event.description}
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
+        <div className="flex flex-col gap-8">
+          {events.map((event) => (
+            <motion.div
+              key={event.documentId}
+              initial={{
+                opacity: 0,
+                // if odd index card,slide from right instead of left
+                x: -150,
+              }}
+              whileInView={{
+                opacity: 1,
+                x: 0, // Slide in to its original position
+                transition: {
+                  default: { type: "spring", stiffness: 150 },
+                },
+              }}
+              viewport={{ once: true }}
+            >
+              <EventCard event={event} />
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      <Cta cta={eventPage?.cta} />
+      {page.cta ? <Cta cta={page.cta} /> : null}
     </div>
   );
 }
