@@ -8,75 +8,80 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TeamImport } from './routes/team'
-import { Route as StatuteImport } from './routes/statute'
-import { Route as ResourcesImport } from './routes/resources'
-import { Route as ImpressumImport } from './routes/impressum'
-import { Route as FaqImport } from './routes/faq'
-import { Route as EventsImport } from './routes/events'
-import { Route as ContactImport } from './routes/contact'
-import { Route as BlogImport } from './routes/blog'
-import { Route as IndexImport } from './routes/index'
 import { Route as BlogsSlugImport } from './routes/blogs.$slug'
+
+// Create Virtual Routes
+
+const TeamLazyImport = createFileRoute('/team')()
+const StatuteLazyImport = createFileRoute('/statute')()
+const ResourcesLazyImport = createFileRoute('/resources')()
+const ImpressumLazyImport = createFileRoute('/impressum')()
+const FaqLazyImport = createFileRoute('/faq')()
+const EventsLazyImport = createFileRoute('/events')()
+const ContactLazyImport = createFileRoute('/contact')()
+const BlogLazyImport = createFileRoute('/blog')()
+const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const TeamRoute = TeamImport.update({
+const TeamLazyRoute = TeamLazyImport.update({
   id: '/team',
   path: '/team',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/team.lazy').then((d) => d.Route))
 
-const StatuteRoute = StatuteImport.update({
+const StatuteLazyRoute = StatuteLazyImport.update({
   id: '/statute',
   path: '/statute',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/statute.lazy').then((d) => d.Route))
 
-const ResourcesRoute = ResourcesImport.update({
+const ResourcesLazyRoute = ResourcesLazyImport.update({
   id: '/resources',
   path: '/resources',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/resources.lazy').then((d) => d.Route))
 
-const ImpressumRoute = ImpressumImport.update({
+const ImpressumLazyRoute = ImpressumLazyImport.update({
   id: '/impressum',
   path: '/impressum',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/impressum.lazy').then((d) => d.Route))
 
-const FaqRoute = FaqImport.update({
+const FaqLazyRoute = FaqLazyImport.update({
   id: '/faq',
   path: '/faq',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/faq.lazy').then((d) => d.Route))
 
-const EventsRoute = EventsImport.update({
+const EventsLazyRoute = EventsLazyImport.update({
   id: '/events',
   path: '/events',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/events.lazy').then((d) => d.Route))
 
-const ContactRoute = ContactImport.update({
+const ContactLazyRoute = ContactLazyImport.update({
   id: '/contact',
   path: '/contact',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/contact.lazy').then((d) => d.Route))
 
-const BlogRoute = BlogImport.update({
+const BlogLazyRoute = BlogLazyImport.update({
   id: '/blog',
   path: '/blog',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/blog.lazy').then((d) => d.Route))
 
-const IndexRoute = IndexImport.update({
+const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
 const BlogsSlugRoute = BlogsSlugImport.update({
   id: '/blogs/$slug',
@@ -92,63 +97,63 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+      preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/blog': {
       id: '/blog'
       path: '/blog'
       fullPath: '/blog'
-      preLoaderRoute: typeof BlogImport
+      preLoaderRoute: typeof BlogLazyImport
       parentRoute: typeof rootRoute
     }
     '/contact': {
       id: '/contact'
       path: '/contact'
       fullPath: '/contact'
-      preLoaderRoute: typeof ContactImport
+      preLoaderRoute: typeof ContactLazyImport
       parentRoute: typeof rootRoute
     }
     '/events': {
       id: '/events'
       path: '/events'
       fullPath: '/events'
-      preLoaderRoute: typeof EventsImport
+      preLoaderRoute: typeof EventsLazyImport
       parentRoute: typeof rootRoute
     }
     '/faq': {
       id: '/faq'
       path: '/faq'
       fullPath: '/faq'
-      preLoaderRoute: typeof FaqImport
+      preLoaderRoute: typeof FaqLazyImport
       parentRoute: typeof rootRoute
     }
     '/impressum': {
       id: '/impressum'
       path: '/impressum'
       fullPath: '/impressum'
-      preLoaderRoute: typeof ImpressumImport
+      preLoaderRoute: typeof ImpressumLazyImport
       parentRoute: typeof rootRoute
     }
     '/resources': {
       id: '/resources'
       path: '/resources'
       fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesImport
+      preLoaderRoute: typeof ResourcesLazyImport
       parentRoute: typeof rootRoute
     }
     '/statute': {
       id: '/statute'
       path: '/statute'
       fullPath: '/statute'
-      preLoaderRoute: typeof StatuteImport
+      preLoaderRoute: typeof StatuteLazyImport
       parentRoute: typeof rootRoute
     }
     '/team': {
       id: '/team'
       path: '/team'
       fullPath: '/team'
-      preLoaderRoute: typeof TeamImport
+      preLoaderRoute: typeof TeamLazyImport
       parentRoute: typeof rootRoute
     }
     '/blogs/$slug': {
@@ -164,42 +169,42 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
-  '/contact': typeof ContactRoute
-  '/events': typeof EventsRoute
-  '/faq': typeof FaqRoute
-  '/impressum': typeof ImpressumRoute
-  '/resources': typeof ResourcesRoute
-  '/statute': typeof StatuteRoute
-  '/team': typeof TeamRoute
+  '/': typeof IndexLazyRoute
+  '/blog': typeof BlogLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/events': typeof EventsLazyRoute
+  '/faq': typeof FaqLazyRoute
+  '/impressum': typeof ImpressumLazyRoute
+  '/resources': typeof ResourcesLazyRoute
+  '/statute': typeof StatuteLazyRoute
+  '/team': typeof TeamLazyRoute
   '/blogs/$slug': typeof BlogsSlugRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
-  '/contact': typeof ContactRoute
-  '/events': typeof EventsRoute
-  '/faq': typeof FaqRoute
-  '/impressum': typeof ImpressumRoute
-  '/resources': typeof ResourcesRoute
-  '/statute': typeof StatuteRoute
-  '/team': typeof TeamRoute
+  '/': typeof IndexLazyRoute
+  '/blog': typeof BlogLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/events': typeof EventsLazyRoute
+  '/faq': typeof FaqLazyRoute
+  '/impressum': typeof ImpressumLazyRoute
+  '/resources': typeof ResourcesLazyRoute
+  '/statute': typeof StatuteLazyRoute
+  '/team': typeof TeamLazyRoute
   '/blogs/$slug': typeof BlogsSlugRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
-  '/contact': typeof ContactRoute
-  '/events': typeof EventsRoute
-  '/faq': typeof FaqRoute
-  '/impressum': typeof ImpressumRoute
-  '/resources': typeof ResourcesRoute
-  '/statute': typeof StatuteRoute
-  '/team': typeof TeamRoute
+  '/': typeof IndexLazyRoute
+  '/blog': typeof BlogLazyRoute
+  '/contact': typeof ContactLazyRoute
+  '/events': typeof EventsLazyRoute
+  '/faq': typeof FaqLazyRoute
+  '/impressum': typeof ImpressumLazyRoute
+  '/resources': typeof ResourcesLazyRoute
+  '/statute': typeof StatuteLazyRoute
+  '/team': typeof TeamLazyRoute
   '/blogs/$slug': typeof BlogsSlugRoute
 }
 
@@ -244,28 +249,28 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  BlogRoute: typeof BlogRoute
-  ContactRoute: typeof ContactRoute
-  EventsRoute: typeof EventsRoute
-  FaqRoute: typeof FaqRoute
-  ImpressumRoute: typeof ImpressumRoute
-  ResourcesRoute: typeof ResourcesRoute
-  StatuteRoute: typeof StatuteRoute
-  TeamRoute: typeof TeamRoute
+  IndexLazyRoute: typeof IndexLazyRoute
+  BlogLazyRoute: typeof BlogLazyRoute
+  ContactLazyRoute: typeof ContactLazyRoute
+  EventsLazyRoute: typeof EventsLazyRoute
+  FaqLazyRoute: typeof FaqLazyRoute
+  ImpressumLazyRoute: typeof ImpressumLazyRoute
+  ResourcesLazyRoute: typeof ResourcesLazyRoute
+  StatuteLazyRoute: typeof StatuteLazyRoute
+  TeamLazyRoute: typeof TeamLazyRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  BlogRoute: BlogRoute,
-  ContactRoute: ContactRoute,
-  EventsRoute: EventsRoute,
-  FaqRoute: FaqRoute,
-  ImpressumRoute: ImpressumRoute,
-  ResourcesRoute: ResourcesRoute,
-  StatuteRoute: StatuteRoute,
-  TeamRoute: TeamRoute,
+  IndexLazyRoute: IndexLazyRoute,
+  BlogLazyRoute: BlogLazyRoute,
+  ContactLazyRoute: ContactLazyRoute,
+  EventsLazyRoute: EventsLazyRoute,
+  FaqLazyRoute: FaqLazyRoute,
+  ImpressumLazyRoute: ImpressumLazyRoute,
+  ResourcesLazyRoute: ResourcesLazyRoute,
+  StatuteLazyRoute: StatuteLazyRoute,
+  TeamLazyRoute: TeamLazyRoute,
   BlogsSlugRoute: BlogsSlugRoute,
 }
 
@@ -292,31 +297,31 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.tsx"
+      "filePath": "index.lazy.tsx"
     },
     "/blog": {
-      "filePath": "blog.tsx"
+      "filePath": "blog.lazy.tsx"
     },
     "/contact": {
-      "filePath": "contact.tsx"
+      "filePath": "contact.lazy.tsx"
     },
     "/events": {
-      "filePath": "events.tsx"
+      "filePath": "events.lazy.tsx"
     },
     "/faq": {
-      "filePath": "faq.tsx"
+      "filePath": "faq.lazy.tsx"
     },
     "/impressum": {
-      "filePath": "impressum.tsx"
+      "filePath": "impressum.lazy.tsx"
     },
     "/resources": {
-      "filePath": "resources.tsx"
+      "filePath": "resources.lazy.tsx"
     },
     "/statute": {
-      "filePath": "statute.tsx"
+      "filePath": "statute.lazy.tsx"
     },
     "/team": {
-      "filePath": "team.tsx"
+      "filePath": "team.lazy.tsx"
     },
     "/blogs/$slug": {
       "filePath": "blogs.$slug.tsx"

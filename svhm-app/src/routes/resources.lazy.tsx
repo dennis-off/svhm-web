@@ -1,59 +1,59 @@
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQuery } from '@tanstack/react-query'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   getDownloads,
   getExternalLinks,
   getProtocols,
   getResourcesPage,
-} from "@/api/queries";
-import { strapiImage } from "@/api/strapiImage";
-import { Cta } from "@/components/dynamic-zone/Cta";
-import { GeneralError, IsLoading } from "@/components/ErrorComponents";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { extractWords, truncate } from "@/lib/utils";
+} from '@/api/queries'
+import { strapiImage } from '@/api/strapiImage'
+import { Cta } from '@/components/dynamic-zone/Cta'
+import { GeneralError, IsLoading } from '@/components/ErrorComponents'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { extractWords, truncate } from '@/lib/utils'
 
-export const Route = createFileRoute("/resources")({
+export const Route = createLazyFileRoute('/resources')({
   component: Resources,
-});
+})
 
 function Resources() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // get all data
   const { isError, isPending, data } = useQuery({
-    queryKey: ["getAllData"],
+    queryKey: ['getAllData'],
     queryFn: async () => {
       const [protocols, downloads, links, resourcesPage] = await Promise.all([
         getProtocols(),
         getDownloads(),
         getExternalLinks(),
         getResourcesPage(),
-      ]);
+      ])
 
-      return { protocols, downloads, links, resourcesPage };
+      return { protocols, downloads, links, resourcesPage }
     },
-  });
+  })
 
   if (isError) {
-    return <GeneralError />;
+    return <GeneralError />
   }
 
   if (isPending) {
-    return <IsLoading />;
+    return <IsLoading />
   }
 
   const { firstWord, middleWords, lastWord } = extractWords(
-    data.resourcesPage?.section.heading
-  );
+    data.resourcesPage?.section.heading,
+  )
 
   return (
     <div className="min-h-screen">
       <section className="container py-8 lg:py-32">
         <h2 className="text-center text-3xl font-bold md:text-4xl lg:text-start">
           <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] bg-clip-text text-transparent">
-            {firstWord}{" "}
+            {firstWord}{' '}
           </span>
-          {middleWords.join(" ")}{" "}
+          {middleWords.join(' ')}{' '}
           <span className="bg-gradient-to-b from-primary/60 to-primary bg-clip-text text-transparent">
             {lastWord}
           </span>
@@ -86,7 +86,7 @@ function Resources() {
                     </p>
                   </div>
                   <p className="text-sm text-muted-foreground transition duration-200 group-hover:text-foreground">
-                    {truncate(link?.description || "Undefined", 80)}
+                    {truncate(link?.description || 'Undefined', 80)}
                   </p>
                 </div>
               </a>
@@ -112,7 +112,7 @@ function Resources() {
                   <Button
                     onClick={() => navigate({ to: download.link.URL })}
                     className={`w-full text-[17px] md:w-auto ${buttonVariants({
-                      variant: "muted",
+                      variant: 'muted',
                     })}`}
                   >
                     Download
@@ -140,7 +140,7 @@ function Resources() {
                   <Button
                     onClick={() => navigate({ to: protocol.link.URL })}
                     className={`w-full text-[17px] md:w-auto ${buttonVariants({
-                      variant: "muted",
+                      variant: 'muted',
                     })}`}
                   >
                     Download
@@ -154,5 +154,5 @@ function Resources() {
 
       {data.resourcesPage?.cta ? <Cta cta={data.resourcesPage.cta} /> : null}
     </div>
-  );
+  )
 }

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { getEvents, getFaqs, getLandingPage, getMembers } from "@/api/queries";
 import { About } from "@/components/dynamic-zone/About";
 import { Cta } from "@/components/dynamic-zone/Cta";
@@ -12,7 +12,7 @@ import { WhatWeDo } from "@/components/dynamic-zone/WhatWeDo";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { getRandomElements } from "@/lib/utils";
 
-export const Route = createFileRoute("/")({
+export const Route = createLazyFileRoute("/")({
   component: Index,
 });
 

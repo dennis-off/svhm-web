@@ -1,79 +1,79 @@
-import React, { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { useDebounce } from "@uidotdev/usehooks";
-import { Loader2 } from "lucide-react";
-import { getArticles, getBlogPage } from "@/api/queries";
-import { components } from "@/api/strapi";
-import { BlogPostRow, RecentBlogCard } from "@/components/Blog";
-import { GeneralError } from "@/components/ErrorComponents";
-import { StrapiSEO } from "@/components/StrapiSeo";
-import InfiniteScroll from "@/components/ui/infinite-scroll";
-import { Spinner } from "@/components/ui/spinner";
-import { extractWords } from "@/lib/utils";
+import React, { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { useDebounce } from '@uidotdev/usehooks'
+import { Loader2 } from 'lucide-react'
+import { getArticles, getBlogPage } from '@/api/queries'
+import { components } from '@/api/strapi'
+import { BlogPostRow, RecentBlogCard } from '@/components/Blog'
+import { GeneralError } from '@/components/ErrorComponents'
+import { StrapiSEO } from '@/components/StrapiSeo'
+import InfiniteScroll from '@/components/ui/infinite-scroll'
+import { Spinner } from '@/components/ui/spinner'
+import { extractWords } from '@/lib/utils'
 
-export const Route = createFileRoute("/blog")({
+export const Route = createLazyFileRoute('/blog')({
   component: Blog,
-});
+})
 
 function Blog() {
-  const [search, setSearch] = React.useState("");
-  const debouncedSearchTerm = useDebounce(search, 500);
+  const [search, setSearch] = React.useState('')
+  const debouncedSearchTerm = useDebounce(search, 500)
 
   useEffect(() => {
-    setArticles([]);
-    setPage(0);
-    setLoading(false);
-    setHasMore(true);
-  }, [debouncedSearchTerm]);
+    setArticles([])
+    setPage(0)
+    setLoading(false)
+    setHasMore(true)
+  }, [debouncedSearchTerm])
 
-  const [page, setPage] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
-  const [hasMore, setHasMore] = React.useState(true);
+  const [page, setPage] = React.useState(0)
+  const [loading, setLoading] = React.useState(false)
+  const [hasMore, setHasMore] = React.useState(true)
   const [articles, setArticles] = React.useState<
-    components["schemas"]["Article"][]
-  >([]);
+    components['schemas']['Article'][]
+  >([])
 
   const next = async () => {
-    setLoading(true);
+    setLoading(true)
 
-    const limit = 2;
+    const limit = 2
 
-    const data = await getArticles(debouncedSearchTerm, page * limit, limit);
+    const data = await getArticles(debouncedSearchTerm, page * limit, limit)
 
-    const articles = data?.data || [];
-    const total = data?.meta?.pagination?.total || 0;
+    const articles = data?.data || []
+    const total = data?.meta?.pagination?.total || 0
 
-    setArticles((prev) => [...prev, ...(articles || [])]);
-    setPage((prev) => prev + 1);
+    setArticles((prev) => [...prev, ...(articles || [])])
+    setPage((prev) => prev + 1)
 
     // Usually your response will tell you if there is no more data.
     if (page * limit + articles.length >= total) {
-      setHasMore(false);
+      setHasMore(false)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   const {
     isError: recentIsError,
     isPending: recentIsPending,
     data: recent,
   } = useQuery({
-    queryKey: ["getArticles"],
-    queryFn: () => getArticles("", 0, 1),
-  });
+    queryKey: ['getArticles'],
+    queryFn: () => getArticles('', 0, 1),
+  })
 
   const {
     isError: pageIsError,
     isPending: pageIsPending,
     data: blogPage,
   } = useQuery({
-    queryKey: ["getBlog"],
+    queryKey: ['getBlog'],
     queryFn: () => getBlogPage(),
-  });
+  })
 
   if (recentIsError || pageIsError) {
-    return <GeneralError />;
+    return <GeneralError />
   }
 
   if (recentIsPending || pageIsPending) {
@@ -83,20 +83,20 @@ function Blog() {
           <Spinner size="large" />
         </section>
       </div>
-    );
+    )
   }
 
   const { firstWord, middleWords, lastWord } = extractWords(
-    blogPage?.section.heading
-  );
+    blogPage?.section.heading,
+  )
 
   return (
     <section className="container py-8 lg:py-32">
       <h2 className="text-center text-3xl font-bold md:text-4xl lg:text-start">
         <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] bg-clip-text text-transparent">
-          {firstWord}{" "}
+          {firstWord}{' '}
         </span>
-        {middleWords.join(" ")}{" "}
+        {middleWords.join(' ')}{' '}
         <span className="bg-gradient-to-b from-primary/60 to-primary bg-clip-text text-transparent">
           {lastWord}
         </span>
@@ -146,5 +146,5 @@ function Blog() {
 
       <StrapiSEO seo={blogPage?.seo} />
     </section>
-  );
+  )
 }

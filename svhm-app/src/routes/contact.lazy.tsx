@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { BiDonateHeart } from "react-icons/bi";
 import { LuMail } from "react-icons/lu";
 import { addServiceRequest } from "@/api/queries";
@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-export const Route = createFileRoute("/contact")({
+export const Route = createLazyFileRoute("/contact")({
   component: Contact,
 });
 
@@ -34,11 +34,11 @@ function Contact() {
         "Ups! Bitte überprüfe deine Eingabe und gib eine gültige E-Mail-Adresse ein."
       );
     } else {
+      // Submit form data
+      addServiceRequest();
+
       setError("");
       setEmail("");
-
-      // Submit form data
-      //addServiceRequest();
 
       toast({
         description: "Deine Nachricht wurde versendet.",
