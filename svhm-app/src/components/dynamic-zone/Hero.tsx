@@ -1,9 +1,17 @@
+import { Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { HeroCards } from "./HeroCards";
-import { Button, buttonVariants } from "./ui/button";
-import { FlipWords } from "./ui/flip-words";
+import { components } from "@/api/strapi";
+import { Button, buttonVariants } from "@/components//ui/button";
+import { FlipWords } from "@/components//ui/flip-words";
+import { HeroCards } from "@/components/HeroCards";
 
-export const Hero = () => {
+export function Hero({
+  page,
+}: {
+  page: components["schemas"]["DynamicZoneHeroComponent"];
+}) {
+  const navigate = useNavigate();
+
   return (
     <section className="container grid place-items-center gap-10 pt-20 md:py-32 lg:grid-cols-2">
       <div className="space-y-6 text-center lg:text-start">
@@ -17,7 +25,7 @@ export const Hero = () => {
           für unsere{" "}
           <h2 className="inline">
             <FlipWords
-              words={["Schule!", "Kinder!", "Zukunft!"]}
+              words={page.flipWords?.map((e) => e?.word || "") || [""]}
               className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] bg-clip-text text-transparent"
             />
             {/*<span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] bg-clip-text text-transparent">
@@ -26,40 +34,30 @@ export const Hero = () => {
           </h2>
         </main>
 
-        <motion.div
-          className=""
-          initial={{
-            opacity: 0,
-            // if odd index card,slide from right instead of left
-            x: -150,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0, // Slide in to its original position
-            transition: {
-              duration: 0.4, // Animation duration
-              delay: 0.2,
-            },
-          }}
-          viewport={{ once: true }}
-        >
-          <p className="mx-auto text-xl text-muted-foreground md:w-10/12 lg:mx-0">
-            Gemeinsam für unsere Kinder: Seit über 50 Jahren unterstützt der
-            Schulverein Haseldorfer Marsch aktiv die Schule und fördert mit Herz
-            und Engagement das Lernen und die Freude am Schulalltag. Mach mit
-            und gestalte die Zukunft unserer Kinder mit!
-          </p>
+        <p className="mx-auto text-xl text-muted-foreground md:w-10/12 lg:mx-0">
+          {page.section?.sub_heading}
+        </p>
 
-          <div className="space-y-4 md:space-x-4 md:space-y-0">
-            <Button
-              className={`w-full md:w-1/3 ${buttonVariants({
-                variant: "primary",
-              })}`}
+        <div className="flex flex-row gap-2">
+          {page.CTAs?.map((button) => (
+            <Link
+              rel="noreferrer noopener"
+              to={button.URL}
+              key={button.id}
+              target={button.target}
             >
-              Beitrittsformular
-            </Button>
-          </div>
-        </motion.div>
+              <Button
+                key={button.id}
+                onClick={() => navigate({ to: button.URL })}
+                className={`text-[17px] ${buttonVariants({
+                  variant: button.variant,
+                })}`}
+              >
+                {button.text}
+              </Button>
+            </Link>
+          ))}
+        </div>
       </div>
 
       {/* Hero cards sections */}
@@ -87,4 +85,4 @@ export const Hero = () => {
       <div className="shadow"></div>
     </section>
   );
-};
+}

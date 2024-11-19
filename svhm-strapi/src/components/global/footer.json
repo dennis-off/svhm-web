@@ -33,6 +33,17 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.link"
+    },
+    "logo": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
     }
   }
 }

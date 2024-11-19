@@ -35,3 +35,12 @@ export function extractWords(text?: string) {
 
   return { firstWord, middleWords, lastWord };
 }
+
+export function getRandomElements<T>(array: T[], count: number): T[] {
+  if (count > array.length) {
+    throw new Error("Count cannot be greater than the array length.");
+  }
+
+  const shuffled = [...array].sort(() => Math.random() - 0.5); // Shuffle the array
+  return shuffled.slice(0, count); // Take the first `count` elements
+}

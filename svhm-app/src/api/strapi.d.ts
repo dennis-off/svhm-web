@@ -1849,163 +1849,10 @@ export interface components {
         };
         DynamicZoneRelatedArticlesComponent: {
             id?: number;
-            /** @enum {string} */
-            __component?: "dynamic-zone.related-articles";
             section?: components["schemas"]["SharedSectionComponent"];
             articles?: {
                 id?: number;
                 documentId?: string;
-                seo?: components["schemas"]["SharedSeoComponent"];
-                title?: string;
-                description?: string;
-                slug?: string;
-                content?: unknown;
-                dynamic_zone?: components["schemas"]["DynamicZoneRelatedArticlesComponent"][];
-                image?: {
-                    id?: number;
-                    documentId?: string;
-                    name?: string;
-                    alternativeText?: string;
-                    caption?: string;
-                    width?: number;
-                    height?: number;
-                    formats?: unknown;
-                    hash?: string;
-                    ext?: string;
-                    mime?: string;
-                    /** Format: float */
-                    size?: number;
-                    url?: string;
-                    previewUrl?: string;
-                    provider?: string;
-                    provider_metadata?: unknown;
-                    related?: {
-                        id?: number;
-                        documentId?: string;
-                    }[];
-                    folder?: {
-                        id?: number;
-                        documentId?: string;
-                    };
-                    folderPath?: string;
-                    /** Format: date-time */
-                    createdAt?: string;
-                    /** Format: date-time */
-                    updatedAt?: string;
-                    /** Format: date-time */
-                    publishedAt?: string;
-                    createdBy?: {
-                        id?: number;
-                        documentId?: string;
-                    };
-                    updatedBy?: {
-                        id?: number;
-                        documentId?: string;
-                    };
-                    locale?: string;
-                    localizations?: {
-                        id?: number;
-                        documentId?: string;
-                    }[];
-                };
-                articles?: {
-                    id?: number;
-                    documentId?: string;
-                }[];
-                author?: {
-                    id?: number;
-                    documentId?: string;
-                    firstname?: string;
-                    lastname?: string;
-                    /** @enum {string} */
-                    role?: "board" | "council" | "member";
-                    avatar?: {
-                        id?: number;
-                        documentId?: string;
-                        name?: string;
-                        alternativeText?: string;
-                        caption?: string;
-                        width?: number;
-                        height?: number;
-                        formats?: unknown;
-                        hash?: string;
-                        ext?: string;
-                        mime?: string;
-                        /** Format: float */
-                        size?: number;
-                        url?: string;
-                        previewUrl?: string;
-                        provider?: string;
-                        provider_metadata?: unknown;
-                        related?: {
-                            id?: number;
-                            documentId?: string;
-                        }[];
-                        folder?: {
-                            id?: number;
-                            documentId?: string;
-                        };
-                        folderPath?: string;
-                        /** Format: date-time */
-                        createdAt?: string;
-                        /** Format: date-time */
-                        updatedAt?: string;
-                        /** Format: date-time */
-                        publishedAt?: string;
-                        createdBy?: {
-                            id?: number;
-                            documentId?: string;
-                        };
-                        updatedBy?: {
-                            id?: number;
-                            documentId?: string;
-                        };
-                        locale?: string;
-                        localizations?: {
-                            id?: number;
-                            documentId?: string;
-                        }[];
-                    };
-                    displayRole?: string;
-                    /** Format: date-time */
-                    createdAt?: string;
-                    /** Format: date-time */
-                    updatedAt?: string;
-                    /** Format: date-time */
-                    publishedAt?: string;
-                    createdBy?: {
-                        id?: number;
-                        documentId?: string;
-                    };
-                    updatedBy?: {
-                        id?: number;
-                        documentId?: string;
-                    };
-                    locale?: string;
-                    localizations?: {
-                        id?: number;
-                        documentId?: string;
-                    }[];
-                };
-                /** Format: date-time */
-                createdAt?: string;
-                /** Format: date-time */
-                updatedAt?: string;
-                /** Format: date-time */
-                publishedAt?: string;
-                createdBy?: {
-                    id?: number;
-                    documentId?: string;
-                };
-                updatedBy?: {
-                    id?: number;
-                    documentId?: string;
-                };
-                locale?: string;
-                localizations?: {
-                    id?: number;
-                    documentId?: string;
-                }[];
             }[];
         };
         BlogPageRequest: {
@@ -3333,6 +3180,53 @@ export interface components {
             internal_links?: components["schemas"]["SharedLinkComponent"][];
             policy_links?: components["schemas"]["SharedLinkComponent"][];
             social_media_links?: components["schemas"]["SharedLinkComponent"][];
+            logo?: {
+                id?: number;
+                documentId?: string;
+                name?: string;
+                alternativeText?: string;
+                caption?: string;
+                width?: number;
+                height?: number;
+                formats?: unknown;
+                hash?: string;
+                ext?: string;
+                mime?: string;
+                /** Format: float */
+                size?: number;
+                url?: string;
+                previewUrl?: string;
+                provider?: string;
+                provider_metadata?: unknown;
+                related?: {
+                    id?: number;
+                    documentId?: string;
+                }[];
+                folder?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                folderPath?: string;
+                /** Format: date-time */
+                createdAt?: string;
+                /** Format: date-time */
+                updatedAt?: string;
+                /** Format: date-time */
+                publishedAt?: string;
+                createdBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                updatedBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                locale?: string;
+                localizations?: {
+                    id?: number;
+                    documentId?: string;
+                }[];
+            };
         };
         ImpressumRequest: {
             data: {
@@ -3410,6 +3304,11 @@ export interface components {
             data: {
                 seo?: components["schemas"]["SharedSeoComponent"];
                 hero: components["schemas"]["DynamicZoneHeroComponent"];
+                about: components["schemas"]["DynamicZoneAboutComponent"];
+                features: components["schemas"]["DynamicZoneRelatedArticlesComponent"];
+                cta: components["schemas"]["DynamicZoneCtaComponent"];
+                events: components["schemas"]["DynamicZoneEventsComponent"];
+                faq: components["schemas"]["DynamicZoneFaqComponent"];
                 locale?: string;
                 localizations?: (number | string)[];
             };
@@ -3430,6 +3329,11 @@ export interface components {
             documentId?: string;
             seo?: components["schemas"]["SharedSeoComponent"];
             hero: components["schemas"]["DynamicZoneHeroComponent"];
+            about: components["schemas"]["DynamicZoneAboutComponent"];
+            features: components["schemas"]["DynamicZoneRelatedArticlesComponent"];
+            cta: components["schemas"]["DynamicZoneCtaComponent"];
+            events: components["schemas"]["DynamicZoneEventsComponent"];
+            faq: components["schemas"]["DynamicZoneFaqComponent"];
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -3450,6 +3354,11 @@ export interface components {
                 documentId?: string;
                 seo?: components["schemas"]["SharedSeoComponent"];
                 hero?: components["schemas"]["DynamicZoneHeroComponent"];
+                about?: components["schemas"]["DynamicZoneAboutComponent"];
+                features?: components["schemas"]["DynamicZoneRelatedArticlesComponent"];
+                cta?: components["schemas"]["DynamicZoneCtaComponent"];
+                events?: components["schemas"]["DynamicZoneEventsComponent"];
+                faq?: components["schemas"]["DynamicZoneFaqComponent"];
                 /** Format: date-time */
                 createdAt?: string;
                 /** Format: date-time */
@@ -3484,6 +3393,73 @@ export interface components {
             section?: components["schemas"]["SharedSectionComponent"];
             flipWords?: components["schemas"]["SharedFlipWordComponent"][];
             CTAs?: components["schemas"]["SharedButtonComponent"][];
+        };
+        DynamicZoneAboutComponent: {
+            id?: number;
+            logo?: {
+                id?: number;
+                documentId?: string;
+                name?: string;
+                alternativeText?: string;
+                caption?: string;
+                width?: number;
+                height?: number;
+                formats?: unknown;
+                hash?: string;
+                ext?: string;
+                mime?: string;
+                /** Format: float */
+                size?: number;
+                url?: string;
+                previewUrl?: string;
+                provider?: string;
+                provider_metadata?: unknown;
+                related?: {
+                    id?: number;
+                    documentId?: string;
+                }[];
+                folder?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                folderPath?: string;
+                /** Format: date-time */
+                createdAt?: string;
+                /** Format: date-time */
+                updatedAt?: string;
+                /** Format: date-time */
+                publishedAt?: string;
+                createdBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                updatedBy?: {
+                    id?: number;
+                    documentId?: string;
+                };
+                locale?: string;
+                localizations?: {
+                    id?: number;
+                    documentId?: string;
+                }[];
+            };
+            content?: string;
+        };
+        DynamicZoneEventsComponent: {
+            id?: number;
+            section?: components["schemas"]["SharedSectionComponent"];
+            events?: {
+                id?: number;
+                documentId?: string;
+            }[];
+        };
+        DynamicZoneFaqComponent: {
+            id?: number;
+            section?: components["schemas"]["SharedSectionComponent"];
+            faqs?: {
+                id?: number;
+                documentId?: string;
+            }[];
         };
         MemberRequest: {
             data: {

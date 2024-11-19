@@ -10,6 +10,7 @@ export const Cta = ({
   const navigate = useNavigate();
 
   const words: string[] = cta?.heading?.split(/\s+/) || [];
+
   // Get the first and last words
   const firstTwoCombined = words.slice(0, 2);
   const rest = words.slice(2, words.length);
@@ -30,7 +31,7 @@ export const Cta = ({
           </p>
         </div>
 
-        <div className="space-y-4 lg:col-start-2">
+        <div className="flex flex-row gap-2">
           {cta?.CTAs?.map((button) => (
             <Link
               rel="noreferrer noopener"

@@ -1,5 +1,18 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface DynamicZoneAbout extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_abouts';
+  info: {
+    description: '';
+    displayName: 'About';
+  };
+  attributes: {
+    content: Schema.Attribute.RichText & Schema.Attribute.Required;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface DynamicZoneCta extends Struct.ComponentSchema {
   collectionName: 'components_dynamic_zone_ctas';
   info: {
@@ -11,6 +24,31 @@ export interface DynamicZoneCta extends Struct.ComponentSchema {
     CTAs: Schema.Attribute.Component<'shared.button', true>;
     heading: Schema.Attribute.String & Schema.Attribute.Required;
     sub_heading: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface DynamicZoneEvents extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_events';
+  info: {
+    description: '';
+    displayName: 'Events';
+  };
+  attributes: {
+    events: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
+    section: Schema.Attribute.Component<'shared.section', false> &
+      Schema.Attribute.Required;
+  };
+}
+
+export interface DynamicZoneFaq extends Struct.ComponentSchema {
+  collectionName: 'components_dynamic_zone_faqs';
+  info: {
+    displayName: 'FAQ';
+  };
+  attributes: {
+    faqs: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'>;
+    section: Schema.Attribute.Component<'shared.section', false> &
+      Schema.Attribute.Required;
   };
 }
 
@@ -54,6 +92,8 @@ export interface GlobalFooter extends Struct.ComponentSchema {
     description: Schema.Attribute.String;
     designed_developed_by: Schema.Attribute.String;
     internal_links: Schema.Attribute.Component<'shared.link', true>;
+    logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
     policy_links: Schema.Attribute.Component<'shared.link', true>;
     social_media_links: Schema.Attribute.Component<'shared.link', true>;
   };
@@ -178,7 +218,10 @@ export interface SharedSeo extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'dynamic-zone.about': DynamicZoneAbout;
       'dynamic-zone.cta': DynamicZoneCta;
+      'dynamic-zone.events': DynamicZoneEvents;
+      'dynamic-zone.faq': DynamicZoneFaq;
       'dynamic-zone.hero': DynamicZoneHero;
       'dynamic-zone.related-articles': DynamicZoneRelatedArticles;
       'global.footer': GlobalFooter;

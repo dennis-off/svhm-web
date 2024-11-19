@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { getArticle } from "@/api/queries";
-import { BackToBlog, BlogLayout, VerticalBlogCard } from "@/components/blog";
+import { BackToBlog, BlogLayout, VerticalBlogCard } from "@/components/Blog";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
 

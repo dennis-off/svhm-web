@@ -41,6 +41,7 @@ export async function getArticles(
     cache: "no-cache",
     params: {
       query: {
+        sort: "publishedAt:desc",
         "filters[$or][0][title][$containsi]": search,
         "filters[$or][1][description][$containsi]": search,
         "pagination[start]": start,
@@ -205,4 +206,11 @@ export async function getImpressumPage() {
     cache: "no-cache",
   });
   return impressumPage?.data?.data;
+}
+
+export async function getLandingPage() {
+  const statutePage = await client.GET("/landing-page", {
+    cache: "no-cache",
+  });
+  return statutePage?.data?.data;
 }

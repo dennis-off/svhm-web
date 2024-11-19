@@ -22,6 +22,36 @@
       "repeatable": false,
       "component": "dynamic-zone.hero",
       "required": true
+    },
+    "about": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.about",
+      "required": true
+    },
+    "features": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.related-articles",
+      "required": true
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.cta",
+      "required": true
+    },
+    "events": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.events",
+      "required": true
+    },
+    "faq": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.faq",
+      "required": true
     }
   }
 }

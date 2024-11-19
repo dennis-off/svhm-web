@@ -1,10 +1,20 @@
 import ReactMarkdown from "react-markdown";
+import { cn } from "@/lib/utils";
 
-export default function Markdown({ markdown }: { markdown: string }) {
+export default function Markdown({
+  markdown,
+  className,
+}: {
+  markdown: string;
+  className?: string;
+}) {
   return (
     <section className="flex flex-col items-center">
       <ReactMarkdown
-        className="flex max-w-3xl flex-col border-l border-r p-2 lg:p-12"
+        className={cn(
+          "flex max-w-3xl flex-col border-l border-r p-2 lg:p-12",
+          className
+        )}
         components={{
           // add a css for p tags
           p({ children }) {

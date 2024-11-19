@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Menu } from "lucide-react";
+import { components } from "@/api/strapi";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -16,14 +17,13 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import { buttonVariants } from "./ui/button";
 
-interface NavbarItemProps {
-  URL: string;
-  text: string;
-  target: string;
-}
-
-export const Navbar = ({ data }: { data: any }) => {
+export const Navbar = ({
+  data,
+}: {
+  data: components["schemas"]["GlobalNavbarComponent"];
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <header className="sticky top-0 z-40 w-full border-b-[1px] bg-white dark:border-b-slate-700 dark:bg-background">
       <NavigationMenu className="mx-auto">
@@ -65,22 +65,26 @@ export const Navbar = ({ data }: { data: any }) => {
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="mt-4 flex flex-col items-start justify-center gap-2">
-                  {data?.left_navbar_items.map(
-                    (route: NavbarItemProps, i: number) => (
-                      <Link
-                        rel="noreferrer noopener"
-                        to={route.URL}
-                        key={i}
-                        className={`text-[32px] ${buttonVariants({
-                          variant: "muted",
-                        })}`}
-                        target={route.target}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {route.text}
-                      </Link>
-                    )
-                  )}
+                  {data?.left_navbar_items &&
+                    data.left_navbar_items.map(
+                      (
+                        route: components["schemas"]["SharedLinkComponent"],
+                        idx: number
+                      ) => (
+                        <Link
+                          rel="noreferrer noopener"
+                          to={route.URL}
+                          key={`Mobile_Navbar_${idx}`}
+                          className={`text-[32px] ${buttonVariants({
+                            variant: "muted",
+                          })}`}
+                          target={route.target}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {route.text}
+                        </Link>
+                      )
+                    )}
                   <Link
                     to="/contact"
                     target="_self"
@@ -103,21 +107,25 @@ export const Navbar = ({ data }: { data: any }) => {
 
           {/* desktop */}
           <nav className="hidden gap-2 md:flex">
-            {data?.left_navbar_items.map(
-              (route: NavbarItemProps, i: number) => (
-                <Link
-                  rel="noreferrer noopener"
-                  to={route.URL}
-                  key={i}
-                  className={`text-[17px] ${buttonVariants({
-                    variant: "muted",
-                  })}`}
-                  target={route.target}
-                >
-                  {route.text}
-                </Link>
-              )
-            )}
+            {data?.left_navbar_items &&
+              data.left_navbar_items.map(
+                (
+                  route: components["schemas"]["SharedLinkComponent"],
+                  idx: number
+                ) => (
+                  <Link
+                    rel="noreferrer noopener"
+                    to={route.URL}
+                    key={`Desktop_Navbar_${idx}`}
+                    className={`text-[17px] ${buttonVariants({
+                      variant: "muted",
+                    })}`}
+                    target={route.target}
+                  >
+                    {route.text}
+                  </Link>
+                )
+              )}
           </nav>
 
           <div className="hidden gap-2 md:flex">

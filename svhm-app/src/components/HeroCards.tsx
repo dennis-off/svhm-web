@@ -31,9 +31,7 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>
-          Der Schulverein ist wirklich eine tolle Sache!
-        </CardContent>
+        <CardContent>Der Schulverein ist wirklich ein toll!</CardContent>
       </Card>
 
       {/* Team */}
@@ -92,14 +90,13 @@ export const HeroCards = () => {
       <Card className="absolute left-[50px] top-[150px] w-72 shadow-black/10 drop-shadow-xl dark:shadow-white/10">
         <CardHeader>
           <CardTitle className="item-center flex justify-between">
-            Free
+            T-Shirt
             <Badge variant="secondary" className="text-sm text-primary">
-              Most popular
+              Beliebt
             </Badge>
           </CardTitle>
           <div>
-            <span className="text-3xl font-bold">$0</span>
-            <span className="text-muted-foreground"> /month</span>
+            <span className="text-3xl font-bold">12.00 €</span>
           </div>
 
           <CardDescription>

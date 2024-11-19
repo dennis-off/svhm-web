@@ -717,9 +717,22 @@ export interface ApiLandingPageLandingPage extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    about: Schema.Attribute.Component<'dynamic-zone.about', false> &
+      Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    cta: Schema.Attribute.Component<'dynamic-zone.cta', false> &
+      Schema.Attribute.Required;
+    events: Schema.Attribute.Component<'dynamic-zone.events', false> &
+      Schema.Attribute.Required;
+    faq: Schema.Attribute.Component<'dynamic-zone.faq', false> &
+      Schema.Attribute.Required;
+    features: Schema.Attribute.Component<
+      'dynamic-zone.related-articles',
+      false
+    > &
+      Schema.Attribute.Required;
     hero: Schema.Attribute.Component<'dynamic-zone.hero', false> &
       Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

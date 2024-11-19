@@ -5,7 +5,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { Loader2 } from "lucide-react";
 import { getArticles, getBlogPage } from "@/api/queries";
 import { components } from "@/api/strapi";
-import { BlogPostRow, RecentBlogCard } from "@/components/blog";
+import { BlogPostRow, RecentBlogCard } from "@/components/Blog";
 import { GeneralError } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
 import InfiniteScroll from "@/components/ui/infinite-scroll";

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_dynamic_zone_events",
+  "info": {
+    "displayName": "Event",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.section",
+      "required": true
+    },
+    "events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::event.event"
+    }
+  }
+}

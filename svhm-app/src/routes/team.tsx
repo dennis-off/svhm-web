@@ -6,13 +6,7 @@ import { strapiImage } from "@/api/strapiImage";
 import { Cta } from "@/components/dynamic-zone/Cta";
 import { GeneralError } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { MemberCard } from "@/components/Team/MemberCard";
 import { Spinner } from "@/components/ui/spinner";
 import { extractWords } from "@/lib/utils";
 
@@ -138,45 +132,7 @@ export function MemberGroup({
   return (
     <div className="mx-auto grid grid-cols-[auto] gap-4 gap-y-10 p-6 md:grid-cols-[auto,auto] lg:grid-cols-[auto,auto,auto,auto]">
       {members?.map((member) => (
-        <Card
-          key={member.documentId}
-          className="relative mt-8 flex max-w-sm flex-col items-center justify-center bg-muted/50"
-        >
-          <CardHeader className="mt-8 flex items-center justify-center pb-2">
-            <img
-              src={strapiImage(member.avatar?.url)}
-              alt={`${member.firstname} ${member.lastname}`}
-              className="absolute -top-12 aspect-square h-24 w-24 rounded-full object-cover"
-            />
-            <CardTitle className="text-center">{`${member.firstname} ${member.lastname}`}</CardTitle>
-            <CardDescription className="text-primary">
-              {member.displayRole}
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent className="pb-2 text-center">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-          </CardContent>
-
-          {/*<CardFooter>
-                  {socialNetworks.map(({ name, url }: SociaNetworkslProps) => (
-                    <div key={name}>
-                      <a
-                        rel="noreferrer noopener"
-                        href={url}
-                        target="_blank"
-                        className={buttonVariants({
-                          variant: "ghost",
-                          size: "sm",
-                        })}
-                      >
-                        <span className="sr-only">{name} icon</span>
-                        {socialIcon(name)}
-                      </a>
-                    </div>
-                  ))}
-                </CardFooter>*/}
-        </Card>
+        <MemberCard key={member.documentId} member={member} />
       ))}
     </div>
   );

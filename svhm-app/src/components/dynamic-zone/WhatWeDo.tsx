@@ -14,8 +14,8 @@ import {
   LuTent,
 } from "react-icons/lu";
 import { TbBuildingCircus } from "react-icons/tb";
-import { GiftIcon, MapIcon, MedalIcon, PlaneIcon } from "./Icons";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { GiftIcon, MapIcon, MedalIcon, PlaneIcon } from "../Icons";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 interface ActivityProps {
   icon: JSX.Element;

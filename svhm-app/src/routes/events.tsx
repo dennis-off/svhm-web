@@ -57,7 +57,7 @@ function Events() {
                 opacity: 1,
                 x: 0, // Slide in to its original position
                 transition: {
-                  default: { type: "spring", stiffness: 150 },
+                  default: { type: "spring", stiffness: 100 },
                 },
               }}
               viewport={{ once: true }}

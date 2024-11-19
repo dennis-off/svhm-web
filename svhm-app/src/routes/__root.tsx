@@ -48,16 +48,20 @@ export const Route = createRootRoute({
       return <IsLoading />;
     }
 
+    if (!global?.footer || !global?.navbar) {
+      return <GeneralError />;
+    }
+
     return (
       <>
         <ThemeProvider>
-          <Navbar data={global?.navbar} />
+          <Navbar data={global.navbar} />
           <ScrollRestoration />
           <Outlet />
           <StickyFooter>
-            <Footer data={global?.footer} />
+            <Footer data={global.footer} />
           </StickyFooter>
-          <StrapiSEO seo={global?.seo} />
+          <StrapiSEO seo={global.seo} />
           {process.env.NODE_ENV === "production" ? (
             <Suspense>
               <TanStackRouterDevtools />

@@ -1,7 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import logo from "../assets/logo_small.png";
+import { components } from "@/api/strapi";
+import { strapiImage } from "@/api/strapiImage";
 
-export const Footer = ({ data }: { data: any }) => {
+export const Footer = ({
+  data,
+}: {
+  data: components["schemas"]["GlobalFooterComponent"];
+}) => {
   return (
     <>
       <footer
@@ -18,7 +23,7 @@ export const Footer = ({ data }: { data: any }) => {
               className="flex text-xl font-bold"
             >
               <img
-                src={logo}
+                src={strapiImage(data.logo?.url)}
                 alt=""
                 className="w-[150px] rounded-lg object-contain"
               />
@@ -29,17 +34,23 @@ export const Footer = ({ data }: { data: any }) => {
         <section className="container z-10 flex flex-row justify-center gap-x-12">
           <div className="">
             <h3 className="text-lg font-bold">Folge uns</h3>
-            <LinkSection links={data?.social_media_links} />
+            {data?.social_media_links ? (
+              <LinkSection links={data.social_media_links} />
+            ) : null}
           </div>
 
           <div className="">
             <h3 className="text-lg font-bold">Verein</h3>
-            <LinkSection links={data?.internal_links} />
+            {data?.internal_links ? (
+              <LinkSection links={data.internal_links} />
+            ) : null}
           </div>
 
           <div className="">
             <h3 className="text-lg font-bold">Richtlinien</h3>
-            <LinkSection links={data?.policy_links} />
+            {data?.policy_links ? (
+              <LinkSection links={data.policy_links} />
+            ) : null}
           </div>
         </section>
 
@@ -57,7 +68,7 @@ export const Footer = ({ data }: { data: any }) => {
           </h3>
 
           <h3>
-            (Inspiriert von{" "}
+            {"("}Inspiriert von{" "}
             <a
               rel="noreferrer noopener"
               target="_blank"
@@ -80,7 +91,7 @@ export const Footer = ({ data }: { data: any }) => {
 const LinkSection = ({
   links,
 }: {
-  links: { text: string; URL: never | string; target: string }[];
+  links: components["schemas"]["SharedLinkComponent"][];
 }) => (
   <div className="mt-4 flex flex-col justify-start space-y-4">
     {links.map((link) => (
