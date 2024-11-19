@@ -1,102 +1,90 @@
-import React, { useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { useDebounce } from '@uidotdev/usehooks'
-import { Loader2 } from 'lucide-react'
-import { getArticles, getBlogPage } from '@/api/queries'
-import { components } from '@/api/strapi'
-import { BlogPostRow, RecentBlogCard } from '@/components/Blog'
-import { GeneralError } from '@/components/ErrorComponents'
-import { StrapiSEO } from '@/components/StrapiSeo'
-import InfiniteScroll from '@/components/ui/infinite-scroll'
-import { Spinner } from '@/components/ui/spinner'
-import { extractWords } from '@/lib/utils'
+import React, { useEffect } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { useDebounce } from "@uidotdev/usehooks";
+import { Loader2 } from "lucide-react";
+import { getArticles, getBlogPage } from "@/api/queries";
+import { components } from "@/api/strapi";
+import { BlogPostRow, RecentBlogCard } from "@/components/Blog";
+import { GeneralError, IsLoading } from "@/components/ErrorComponents";
+import { StrapiSEO } from "@/components/StrapiSeo";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { delay, extractWords } from "@/lib/utils";
 
-export const Route = createLazyFileRoute('/blog')({
+export const Route = createLazyFileRoute("/blog")({
   component: Blog,
-})
+});
 
 function Blog() {
-  const [search, setSearch] = React.useState('')
-  const debouncedSearchTerm = useDebounce(search, 500)
+  const [search, setSearch] = React.useState("");
+  const debouncedSearchTerm = useDebounce(search, 500);
 
-  useEffect(() => {
-    setArticles([])
-    setPage(0)
-    setLoading(false)
-    setHasMore(true)
-  }, [debouncedSearchTerm])
+  const fetchArticles = async ({
+    pageParam,
+  }: {
+    pageParam: number;
+  }): Promise<components["schemas"]["ArticleListResponse"]> => {
+    const res = await getArticles(debouncedSearchTerm, pageParam * 2, 2);
 
-  const [page, setPage] = React.useState(0)
-  const [loading, setLoading] = React.useState(false)
-  const [hasMore, setHasMore] = React.useState(true)
-  const [articles, setArticles] = React.useState<
-    components['schemas']['Article'][]
-  >([])
+    if (!res) throw "";
 
-  const next = async () => {
-    setLoading(true)
-
-    const limit = 2
-
-    const data = await getArticles(debouncedSearchTerm, page * limit, limit)
-
-    const articles = data?.data || []
-    const total = data?.meta?.pagination?.total || 0
-
-    setArticles((prev) => [...prev, ...(articles || [])])
-    setPage((prev) => prev + 1)
-
-    // Usually your response will tell you if there is no more data.
-    if (page * limit + articles.length >= total) {
-      setHasMore(false)
-    }
-    setLoading(false)
-  }
+    return res;
+  };
 
   const {
-    isError: recentIsError,
-    isPending: recentIsPending,
-    data: recent,
-  } = useQuery({
-    queryKey: ['getArticles'],
-    queryFn: () => getArticles('', 0, 1),
-  })
+    data: articles,
+    error: articlesError,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["GetArticles", debouncedSearchTerm],
+    queryFn: fetchArticles,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: any) => {
+      if (
+        (lastPage.meta?.pagination.start + 1) * 2 <=
+        lastPage.meta?.pagination.total
+      )
+        return lastPage.meta?.pagination.start + 1;
+      else {
+        return null;
+      }
+    },
+  });
 
   const {
     isError: pageIsError,
     isPending: pageIsPending,
     data: blogPage,
   } = useQuery({
-    queryKey: ['getBlog'],
+    queryKey: ["getBlog"],
     queryFn: () => getBlogPage(),
-  })
+  });
 
-  if (recentIsError || pageIsError) {
-    return <GeneralError />
+  if (pageIsError || articlesError) {
+    return <GeneralError />;
   }
 
-  if (recentIsPending || pageIsPending) {
-    return (
-      <div className="min-h-screen">
-        <section className="container py-8 lg:py-32">
-          <Spinner size="large" />
-        </section>
-      </div>
-    )
+  if (pageIsPending || !articles || articles.pages.length === 0) {
+    return <IsLoading />;
   }
 
   const { firstWord, middleWords, lastWord } = extractWords(
-    blogPage?.section.heading,
-  )
+    blogPage?.section.heading
+  );
+
+  const recent = articles.pages[0];
 
   return (
     <section className="container py-8 lg:py-32">
       <h2 className="text-center text-3xl font-bold md:text-4xl lg:text-start">
         <span className="inline bg-gradient-to-r from-[#F596D3] to-[#D247BF] bg-clip-text text-transparent">
-          {firstWord}{' '}
+          {firstWord}{" "}
         </span>
-        {middleWords.join(' ')}{' '}
+        {middleWords.join(" ")}{" "}
         <span className="bg-gradient-to-b from-primary/60 to-primary bg-clip-text text-transparent">
           {lastWord}
         </span>
@@ -125,26 +113,40 @@ function Blog() {
             className="min-w-full rounded-md border-none bg-neutral-200 p-2 text-sm outline-none focus:outline-none focus:ring-0 dark:bg-neutral-800 sm:min-w-96"
           />
         </div>
-        <div className="flex flex-col divide-y py-12">
-          {articles.length === 0 ? (
-            <p className="p-4 text-center">No results found</p>
-          ) : (
-            articles.map((article) => (
-              <BlogPostRow article={article} key={article?.id} />
-            ))
-          )}
+        <div className="flex flex-col gap-4 py-12">
+          <>
+            {articles.pages.map((group, i) => (
+              <React.Fragment key={i}>
+                {group?.data?.map((article) => (
+                  <BlogPostRow article={article} key={article?.id} />
+                ))}
+              </React.Fragment>
+            ))}
+            <div className="mx-auto flex flex-col justify-center gap-2">
+              <Button
+                disabled={isFetchingNextPage || isFetching || !hasNextPage}
+                onClick={() => fetchNextPage()}
+                className={`w-48 text-[17px] ${buttonVariants({
+                  variant: "muted",
+                })}`}
+              >
+                {isFetchingNextPage ? (
+                  <Spinner />
+                ) : hasNextPage ? (
+                  "Mehr Beiträge laden"
+                ) : (
+                  "Alle Beiträge geladen"
+                )}
+              </Button>
+              <div className="text-center text-sm text-muted-foreground">
+                <p>{`${articles.pages.reduce((res, { data }) => res + (data ? data?.length : 0), 0)} von ${recent.meta?.pagination?.total}`}</p>
+              </div>
+            </div>
+          </>
         </div>
-        <InfiniteScroll
-          hasMore={hasMore}
-          isLoading={loading}
-          next={next}
-          threshold={1}
-        >
-          {hasMore && <Loader2 className="my-4 h-8 w-8 animate-spin" />}
-        </InfiniteScroll>
       </div>
 
       <StrapiSEO seo={blogPage?.seo} />
     </section>
-  )
+  );
 }

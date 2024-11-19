@@ -44,3 +44,7 @@ export function getRandomElements<T>(array: T[], count: number): T[] {
   const shuffled = [...array].sort(() => Math.random() - 0.5); // Shuffle the array
   return shuffled.slice(0, count); // Take the first `count` elements
 }
+
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
