@@ -16,6 +16,7 @@ import { Navbar } from "@/components/Navbar";
 import StickyFooter from "@/components/sticky-footer/sticky-footer";
 import { StrapiSEO } from "@/components/StrapiSeo";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
+import { Toaster } from "@/components/ui/toaster";
 
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
@@ -67,6 +68,7 @@ export const Route = createRootRoute({
               <TanStackRouterDevtools />
             </Suspense>
           ) : null}
+          <Toaster />
         </ThemeProvider>
       </>
     );

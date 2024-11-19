@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BiDonateHeart } from "react-icons/bi";
 import { LuMail } from "react-icons/lu";
 import { addServiceRequest } from "@/api/queries";
+import { useToast } from "@/components/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,6 +19,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function Contact() {
+  const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -26,17 +28,21 @@ function Contact() {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (!email) {
-      setError("Email is required");
+      setError("Eine gültige E-Mail-Adresse ist notwendig");
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       setError(
         "Ups! Bitte überprüfe deine Eingabe und gib eine gültige E-Mail-Adresse ein."
       );
     } else {
       setError("");
+      setEmail("");
 
       // Submit form data
-      console.log("Form submitted:", email);
-      addServiceRequest();
+      //addServiceRequest();
+
+      toast({
+        description: "Deine Nachricht wurde versendet.",
+      });
     }
   };
 
@@ -54,11 +60,11 @@ function Contact() {
         </h2>
       </div>
 
-      <div className=" flex flex-1 flex-col pb-8 lg:flex-row lg:pb-32">
+      <div className="flex flex-1 flex-col pb-8 lg:flex-row lg:pb-32">
         {/* first column */}
         <div className="z-10 flex flex-col gap-4 p-4">
           <Card className="">
-            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col items-start justify-start gap-4 space-y-1 lg:flex-row">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <LuMail className="size-8" />
               </div>
@@ -75,7 +81,7 @@ function Contact() {
           </Card>
 
           <Card className="">
-            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col items-start justify-start gap-4 space-y-1 lg:flex-row">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <BiDonateHeart className="size-8" />
               </div>
@@ -93,7 +99,7 @@ function Contact() {
           </Card>
 
           <Card className="">
-            <CardHeader className="flex flex-col lg:flex-row items-start justify-start gap-4 space-y-1">
+            <CardHeader className="flex flex-col items-start justify-start gap-4 space-y-1 lg:flex-row">
               <div className="mt-1 rounded-sm bg-muted-foreground/30 p-1">
                 <BiDonateHeart className="size-8" />
               </div>
@@ -114,7 +120,7 @@ function Contact() {
         {/* second column */}
         <form
           onSubmit={handleSubmit}
-          className="z-10 mx-auto p-4 flex flex-grow flex-col gap-4 rounded-2xl border-[2px] lg:border-[12px] border-primary lg:pt-8"
+          className="z-10 mx-auto flex flex-grow flex-col gap-4 rounded-2xl border-[2px] border-primary p-4 lg:border-[12px] lg:pt-8"
         >
           <h2 className="flex text-center text-3xl font-semibold md:text-4xl lg:text-start">
             Du hast ein Anliegen? Schreibe uns direkt!
@@ -135,9 +141,11 @@ function Contact() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Deine E-Mail"
           />
-          {error && <p className="mb-2 text-sm text-red-500">{error}</p>}
+          {error && <p className="mb-2 text-sm text-red-600">{error}</p>}
 
-          <span className="text-lg hidden lg:visible">Erzähle uns etwas über dein Anliegen</span>
+          <span className="hidden text-lg lg:visible">
+            Erzähle uns etwas über dein Anliegen
+          </span>
 
           <Textarea
             value={message}
