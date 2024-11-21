@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { components } from "@/api/strapi";
-import { VerticalBlogCard } from "@/components/Blog";
+import { VerticalBlogCard } from "@/features/Blog";
 import { extractWords } from "@/lib/utils";
 
 export function Features({

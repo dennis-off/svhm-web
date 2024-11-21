@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { components } from "@/api/strapi";
 import { Button, buttonVariants } from "@/components//ui/button";
 import { FlipWords } from "@/components//ui/flip-words";
-import { HeroCards } from "@/components/HeroCards";
+import { HeroCards } from "@/features/landing/HeroCards";
 
 export function Hero({
   page,

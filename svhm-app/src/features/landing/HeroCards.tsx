@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { BiDonateHeart } from "react-icons/bi";
 import { LuGlobe, LuMail } from "react-icons/lu";
+import schoolYard from "@/assets/school-yard_01.png";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -10,9 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import schoolYard from "../assets/school-yard_01.png";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Badge } from "./ui/badge";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
+import { Badge } from "../../components/ui/badge";
 
 export const HeroCards = () => {
   return (

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { getArticle } from "@/api/queries";
-import { BackToBlog, BlogLayout, VerticalBlogCard } from "@/components/Blog";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
+import { BackToBlog, BlogLayout, VerticalBlogCard } from "@/features/Blog";
 
 export const Route = createFileRoute("/blogs/$slug")({
   component: BlogDetail,

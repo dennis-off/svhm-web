@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { components } from "@/api/strapi";
-import { EventCard } from "@/components/Events/EventCard";
+import { EventCard } from "@/features/Events/EventCard";
 import { extractWords } from "@/lib/utils";
 
 export function Events({

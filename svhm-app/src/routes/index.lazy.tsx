@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { getEvents, getFaqs, getLandingPage, getMembers } from "@/api/queries";
-import { About } from "@/components/dynamic-zone/About";
-import { Cta } from "@/components/dynamic-zone/Cta";
-import { Events } from "@/components/dynamic-zone/Events";
-import { FAQ } from "@/components/dynamic-zone/FAQ";
-import { Features } from "@/components/dynamic-zone/Features";
-import { Hero } from "@/components/dynamic-zone/Hero";
-import { Team } from "@/components/dynamic-zone/Team";
-import { WhatWeDo } from "@/components/dynamic-zone/WhatWeDo";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { getRandomElements } from "@/lib/utils";
+import { About } from "@/sections/About";
+import { Cta } from "@/sections/Cta";
+import { Events } from "@/sections/Events";
+import { FAQ } from "@/sections/FAQ";
+import { Features } from "@/sections/Features";
+import { Hero } from "@/sections/Hero";
+import { Team } from "@/sections/Team";
+import { WhatWeDo } from "@/sections/WhatWeDo";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,

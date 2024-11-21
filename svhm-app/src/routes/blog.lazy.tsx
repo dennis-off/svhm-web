@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useDebounce } from "@uidotdev/usehooks";
-import { Loader2 } from "lucide-react";
 import { getArticles, getBlogPage } from "@/api/queries";
 import { components } from "@/api/strapi";
-import { BlogPostRow, RecentBlogCard } from "@/components/Blog";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { StrapiSEO } from "@/components/StrapiSeo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { delay, extractWords } from "@/lib/utils";
+import { BlogPostRow, RecentBlogCard } from "@/features/Blog";
+import { extractWords } from "@/lib/utils";
 
 export const Route = createLazyFileRoute("/blog")({
   component: Blog,

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { components } from "@/api/strapi";
-import { MemberCard } from "@/components/Team/MemberCard";
+import { MemberCard } from "@/features/Team/MemberCard";
 
 export function Team({
   members,

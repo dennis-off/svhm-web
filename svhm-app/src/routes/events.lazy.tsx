@@ -1,42 +1,42 @@
-import { useQuery } from '@tanstack/react-query'
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { motion } from 'framer-motion'
-import { getEvents, getEventsPage } from '@/api/queries'
-import { Cta } from '@/components/dynamic-zone/Cta'
-import { GeneralError, IsLoading } from '@/components/ErrorComponents'
-import { EventCard } from '@/components/Events/EventCard'
-import { Heading } from '@/components/Heading'
-import { SubHeading } from '@/components/SubHeading'
+import { useQuery } from "@tanstack/react-query";
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { getEvents, getEventsPage } from "@/api/queries";
+import { GeneralError, IsLoading } from "@/components/ErrorComponents";
+import { Heading } from "@/components/Heading";
+import { SubHeading } from "@/components/SubHeading";
+import { EventCard } from "@/features/Events/EventCard";
+import { Cta } from "@/sections/Cta";
 
-export const Route = createLazyFileRoute('/events')({
+export const Route = createLazyFileRoute("/events")({
   component: Events,
-})
+});
 
 function Events() {
   // get all data
   const { isError, isPending, data } = useQuery({
-    queryKey: ['getEventDataAll'],
+    queryKey: ["getEventDataAll"],
     queryFn: async () => {
-      const [events, page] = await Promise.all([getEvents(), getEventsPage()])
+      const [events, page] = await Promise.all([getEvents(), getEventsPage()]);
 
-      return { events, page }
+      return { events, page };
     },
-  })
+  });
 
   if (isError) {
-    return <GeneralError />
+    return <GeneralError />;
   }
 
   if (isPending) {
-    return <IsLoading />
+    return <IsLoading />;
   }
 
   if (!data.page || !data.events) {
-    return <GeneralError />
+    return <GeneralError />;
   }
 
-  const page = data.page
-  const events = data.events
+  const page = data.page;
+  const events = data.events;
 
   return (
     <div className="min-h-screen">
@@ -57,7 +57,7 @@ function Events() {
                 opacity: 1,
                 x: 0, // Slide in to its original position
                 transition: {
-                  default: { type: 'spring', stiffness: 100 },
+                  default: { type: "spring", stiffness: 100 },
                 },
               }}
               viewport={{ once: true }}
@@ -70,5 +70,5 @@ function Events() {
 
       {page.cta ? <Cta cta={page.cta} /> : null}
     </div>
-  )
+  );
 }
