@@ -192,6 +192,7 @@ export interface SharedSection extends Struct.ComponentSchema {
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
+    description: '';
     displayName: 'seo';
     icon: 'search';
   };
@@ -201,6 +202,7 @@ export interface SharedSeo extends Struct.ComponentSchema {
     metaDescription: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
         minLength: 50;
       }>;
     metaImage: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
