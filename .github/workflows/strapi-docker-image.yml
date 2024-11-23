@@ -3,12 +3,12 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ]
-  paths:
-      - "svhm-app/version.cfg"
+    paths:
+      - "svhm-strapi/version.cfg"
   pull_request:
     branches: [ "main" ]
-  paths:
-      - "svhm-app/version.cfg"
+    paths:
+    - "svhm-strapi/version.cfg"
 jobs:
 
   build:
