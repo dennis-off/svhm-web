@@ -26,7 +26,7 @@ jobs:
     - name: Build the Docker image
       run: |
         cd svhm-strapi
-        docker compose build
+        docker build --build-arg NODE_ENV=production -t svhm-strapi:latest -f Dockerfile.prod .
         docker tag svhm-strapi:latest ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest
 
     - name: Push the Docker image
