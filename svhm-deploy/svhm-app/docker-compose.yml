@@ -6,14 +6,17 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      VITE_NEXT_PUBLIC_API_URL: ${VITE_NEXT_PUBLIC_API_URL}
-      VITE_PREVIEW_SECRET: ${VITE_PREVIEW_SECRET}
+      APP_ENV_PREFIX: SVHMAPP
+      SVHMAPP_WEBSITE_URL: ${VITE_WEBSITE_URL}
+      SVHMAPP_PORT: ${VITE_PORT}
+      SVHMAPP_NEXT_PUBLIC_API_URL: http://172.18.0.3:1337
+      SVHMAPP_PREVIEW_SECRET: ${VITE_PREVIEW_SECRET}
       NODE_ENV: ${NODE_ENV}
     networks:
-      - svhm-app
+      - svhm-strapi
     ports:
-      - '3000:3000'
+      - '8080:8080'
 networks:
-  svhm-app:
+  svhm-strapi:
     name: svhm-strapi-network
     external: true
