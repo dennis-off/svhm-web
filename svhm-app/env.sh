@@ -11,5 +11,5 @@ for i in $(env | grep "^$APP_ENV_PREFIX"); do
 
     echo "$key=$value"
 
-    find "/var/www/html/" -type f -exec sed -i 's|'"${key}"'|'"${value}"'|g' {} \;  
+    find "/var/www/html/" -type f -exec sed -i 's|'"${key}"'|'"${value}"'|g' {} \;
 done
