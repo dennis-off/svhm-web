@@ -1,0 +1,19 @@
+version: '3'
+services:
+  svhm-app:
+    container_name: svhm-app
+    image: ghcr.io/dennis-off/svhm-app:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      VITE_NEXT_PUBLIC_API_URL: ${VITE_NEXT_PUBLIC_API_URL}
+      VITE_PREVIEW_SECRET: ${VITE_PREVIEW_SECRET}
+      NODE_ENV: ${NODE_ENV}
+    networks:
+      - svhm-app
+    ports:
+      - '3000:3000'
+networks:
+  svhm-app:
+    name: svhm-strapi-network
+    external: true

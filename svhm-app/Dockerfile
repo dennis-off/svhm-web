@@ -11,11 +11,11 @@ ENV PATH=/app/node_modules/.bin:$PATH
 
 COPY . .
 
-RUN yarn run build
+RUN yarn run build --mode=production
 
 FROM nginx:1.27.2-alpine
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/nginx.conf /etc/nginx
 COPY --from=build /app/dist /var/www/html/
 
 EXPOSE 3000
