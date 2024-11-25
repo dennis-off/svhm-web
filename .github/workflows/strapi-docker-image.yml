@@ -2,36 +2,34 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "svhm-strapi/version.cfg"
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
-    - "svhm-strapi/version.cfg"
+      - "svhm-strapi/version.cfg"
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v4
+      - name: Check out the repository
+        uses: actions/checkout@v4
 
-    - name: Log in to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Build the Docker image
-      run: |
-        cd svhm-strapi
-        docker build -t svhm-strapi:latest -f Dockerfile .
-        docker tag svhm-strapi:latest ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Push the Docker image
-      run: |
-        docker push ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest
+      - name: Build the Docker image
+        run: |
+          cd svhm-strapi
+          docker build --build-arg NODE_ENV=production -t svhm-strapi:latest -f Dockerfile.prod .
+          docker tag svhm-strapi:latest ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest
+
+      - name: Push the Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest

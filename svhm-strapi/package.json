@@ -5,9 +5,11 @@
   "description": "A Strapi application",
   "scripts": {
     "build": "strapi build",
+    "build:win": "cross-env NODE_ENV=production yarn build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "start": "strapi start",
+    "start:win": "cross-env NODE_ENV=production npm start",
     "strapi": "strapi"
   },
   "dependencies": {
@@ -27,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "typescript": "^5"
   },
   "engines": {

@@ -1,12 +1,16 @@
 export default ({ env }) => ({
 	connection: {
-		client: env('DATABASE_CLIENT', 'postgres'),
+		client: env('DATABASE_CLIENT', 'sqlite'),
 		connection: {
-		host: env('DATABASE_HOST', 'localhost'),
+			// sqlit
+			filename: env('DATABASE_FILENAME', '.tmp/data.db'),
+			
+			// postgres
+			host: env('DATABASE_HOST', 'localhost'),
 			port: env.int('DATABASE_PORT', 5432),
-			database: env('DATABASE_NAME', 'svhm'),
-			user: env('DATABASE_USERNAME', 'postgres'),
-			password: env('DATABASE_PASSWORD', '+trioptics'),
+			database: env('DATABASE_NAME', 'strapi'),
+			user: env('DATABASE_USERNAME', 'strapi'),
+			password: env('DATABASE_PASSWORD', 'strapi'),
 			ssl: env.bool('DATABASE_SSL', false)
 		}
 	}
