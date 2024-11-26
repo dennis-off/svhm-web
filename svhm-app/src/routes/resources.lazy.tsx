@@ -6,19 +6,25 @@ import {
   getProtocols,
   getResourcesPage,
 } from "@/api/queries";
-import { strapiImage } from "@/api/strapiImage";
+import { strapiDocument, strapiImage } from "@/api/strapiImage";
 import { GeneralError, IsLoading } from "@/components/ErrorComponents";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { extractWords, truncate } from "@/lib/utils";
 import { Cta } from "@/sections/Cta";
+
+const handleNavigation = (url: string) => {
+  console.log(url);
+  if (url.startsWith("http") || url.startsWith("https")) {
+    // Externe Navigation
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+};
 
 export const Route = createLazyFileRoute("/resources")({
   component: Resources,
 });
 
 function Resources() {
-  const navigate = useNavigate();
-
   // get all data
   const { isError, isPending, data } = useQuery({
     queryKey: ["getAllData"],
@@ -70,24 +76,39 @@ function Resources() {
 
           <div className="flex flex-col divide-y">
             {data.links?.map((link) => (
-              <a href={link.link.URL} className="group flex flex-row gap-4">
-                <div className="flex min-w-32 overflow-hidden">
-                  <img
-                    className="h-32 w-32 rounded-lg transition-all duration-500 ease-in-out [mask-image:radial-gradient(circle,white,transparent)] group-hover:scale-110 group-hover:blur-none"
-                    src={strapiImage(link.preview.url)}
-                    alt=""
-                  />
-                </div>
+              <a
+                href={link.link.URL}
+                target="_blank"
+                className="group flex flex-row py-4"
+              >
+                <div
+                  className="relative flex flex-grow flex-col overflow-hidden rounded-lg p-2 sm:flex-row"
+                  style={{
+                    backgroundImage: `url(${strapiImage(link.preview.url)})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <div className="absolute inset-0 bg-neutral-100/60 backdrop-blur-lg dark:bg-gray-800/60"></div>
 
-                <div className="flex-col py-4">
-                  <div className="flex flex-row">
-                    <p className="flex border-b-2 border-transparent text-lg font-medium text-foreground transition duration-200 group-hover:border-primary">
-                      {link.name}
+                  <div className="z-10 mt-2 flex overflow-hidden rounded-lg sm:mx-2">
+                    <img
+                      className="h-32 w-auto object-cover object-center transition-all duration-500 ease-in-out group-hover:scale-110"
+                      src={strapiImage(link.preview.url)}
+                      alt=""
+                    />
+                  </div>
+
+                  <div className="z-10 grid grid-rows-[auto,1fr,auto] p-2">
+                    <div className="flex flex-row">
+                      <p className="w-auto border-b-2 border-transparent text-lg font-medium text-foreground transition duration-200 group-hover:border-primary">
+                        {link.name}
+                      </p>
+                    </div>
+                    <p className="mt-2 max-w-xl text-sm text-foreground transition duration-200">
+                      {truncate(link?.description || "Undefined", 80)}
                     </p>
                   </div>
-                  <p className="text-sm text-muted-foreground transition duration-200 group-hover:text-foreground">
-                    {truncate(link?.description || "Undefined", 80)}
-                  </p>
                 </div>
               </a>
             ))}
@@ -110,7 +131,9 @@ function Resources() {
                 </div>
                 <div className="flex flex-grow items-center justify-center md:flex-none">
                   <Button
-                    onClick={() => navigate({ to: download.link.URL })}
+                    onClick={() =>
+                      handleNavigation(strapiDocument(download.file?.url))
+                    }
                     className={`w-full text-[17px] md:w-auto ${buttonVariants({
                       variant: "muted",
                     })}`}
@@ -138,7 +161,9 @@ function Resources() {
 
                 <div className="flex flex-grow items-stretch justify-center md:flex-none">
                   <Button
-                    onClick={() => navigate({ to: protocol.link.URL })}
+                    onClick={() =>
+                      handleNavigation(strapiDocument(protocol.link.URL))
+                    }
                     className={`w-full text-[17px] md:w-auto ${buttonVariants({
                       variant: "muted",
                     })}`}
