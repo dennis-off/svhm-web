@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createLazyFileRoute, useNavigate } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   getDownloads,
   getExternalLinks,
