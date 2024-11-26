@@ -24,4 +24,5 @@ RUN chmod +x /docker-entrypoint.d/env.sh
 
 EXPOSE 3000
 
-ENTRYPOINT ["nginx","-g","daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nginx","-g","daemon off;"]
