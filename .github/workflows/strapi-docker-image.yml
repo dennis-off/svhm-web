@@ -32,7 +32,7 @@ jobs:
         run: |
           cd svhm-strapi
           docker buildx create --use --name multiarch-builder
-          docker buildx build --platform linux/amd64,linux/arm64 \
+          docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 \
             --build-arg NODE_ENV=production \
             -t ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest \
             -f Dockerfile.prod \
