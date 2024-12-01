@@ -18,7 +18,7 @@ Klone das Repo mit folgendem Befehl:
 git clone https://github.com/dennis-off/svhm-web.git
 ```
 
-- Navigate to your project folder by running `cd svhm-web`.
+- Navigiere zu deinem Startpunkt mit `cd svhm-web`.
 
 ## 🌟 2. Konfiguration erstellen
 

@@ -1,59 +1,33 @@
-# Shadcn/UI Landing Page Template
+# Schulverein Haseldorfer Marsch (App)
 
-## <a href="https://ui.shadcn.com/" target="_blank">ShadcnUI</a> + <a href="https://react.dev/" target="_blank">React</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.
+## <a href="https://ui.shadcn.com/" target="_blank">ShadcnUI</a> + <a href="https://react.dev/" target="_blank">React</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind</a> + <a href="https://tanstack.com/router/latest" target="_blank">TanStack Router</a> + <a href="https://openapi-ts.dev/openapi-fetch/" target="_blank">OpenAPI fetch</a>
 
-![shadch-landing-page](https://github.com/leoMirandaa/shadcn-landing-page/assets/61714687/3ba7b51f-9589-4541-800a-5ab7cecad1b5)
+![LaunchPad](./svhm.jpg)
 
-Build your React landing page effortlessly with the required sections to your project. <a href="https://shadcn-landing-page.vercel.app/" target="_blank">Live Demo</a>
+Baue die App mit wenigen Kommandos oder schaue dir die <a href="https://lucky-safe-bream.ngrok-free.app/" target="_blank">Live Demo</a> an.
 
-## Sections
+## Zum installieren
 
-- [x] Navbar
-- [x] Sidebar(mobile)
-- [x] Hero
-- [x] Sponsors
-- [x] About
-- [x] Stats
-- [x] How It Works
-- [x] Features
-- [x] Services
-- [x] Call-to-Action (CTA)
-- [x] Testimonials
-- [x] Team
-- [x] Pricing
-- [x] Newsletter
-- [x] Frequently Asked Questions(FAQ)
-- [x] Footer
-
-## Features
-
-- [x] Fully Responsive Design
-- [x] User Friendly Navigation
-- [x] Dark Mode
-- [x] Meta tags
-
-## How to install
-
-1. Clone this repository:
+1. Klone das Repo
 
 ```bash
 git clone https://github.com/leoMirandaa/shadcn-landing-page.git
 ```
 
-2. Go into project
+2. Navigiere zum Projekt
 
 ```bash
-cd shadcn-landing-page
+cd svhm-app
 ```
 
-3. Install dependencies
+3. Installiere alle Abhängigkeiten
 
 ```bash
-npm install
+yarn install
 ```
 
-4. Run project
+4. Starte das Projekt
 
 ```bash
-npm run dev
+yarn dev
 ```
