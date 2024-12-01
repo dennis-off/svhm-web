@@ -2,12 +2,13 @@
 
 ![LaunchPad](./svhm.jpg)
 
-Willkommen an Bord! **Schulverein Haseldorfer Marsch**, die offizielle Plattform des Schulvereins, bringt alle Informationen, Dokumente und Links an einem Ort zusammen.
+Willkommen an Bord! **Schulverein Haseldorfer Marsch**, die inoffizielle Plattform des Schulvereins, bringt alle Informationen, Dokumente und Links an einem Ort zusammen.
 
 Dieses Repository enthält:
 
-- Ein Strapi-Projekt mit vorgefertigten Inhalten und Daten
-- Eine Next.js-Anwendung, die Inhalte direkt aus Strapi bezieht und dir bereitstellt
+- Ein Strapi-Projekt mit den zuletzt archivierten Inhalten und Daten
+- Eine React-Anwendung, die Inhalte direkt aus Strapi bezieht und dir bereitstellt
+- Ein Docker-Projekt für das Erstellen des Backend und Frontend
 
 ## 1. Das Projekt klonen
 
@@ -21,7 +22,7 @@ git clone https://github.com/dennis-off/svhm-web.git
 
 ## 🌟 2. Konfiguration erstellen
 
-Leg los! Du kannst die Plattform entweder lokal einrichten, indem du die unten stehenden Anweisungen befolgst, oder du schaust dir die [Webseite live in Aktion an](https://www.schulverein-haseldorfer-marsch.de/).
+Leg los! Du kannst die Plattform entweder lokal einrichten, indem du die unten stehenden Anweisungen befolgst, oder du schaust dir die [Webseite live in Aktion an](https://lucky-safe-bream.ngrok-free.app/).
 
 Stelle sicher, dass du die richtigen Umgebungsvariablen für jeden Teil geladen hast:
 
@@ -32,7 +33,7 @@ Strapi (Beispiel in `./svhm-strapi/.env.example`):
 
 - Erstelle eine `./svhm-strapi/.env`-Datei mit diesen Variablen.
 
-Next.js (Beispiel in `./svhm-app/.env.sample`):
+React (Beispiel in `./svhm-app/.env.sample`):
 
 - `NEXT_PUBLIC_API_URL=<url-von-strapi>` (Pflicht)
 - `PREVIEW_SECRET=<dasselbe-zufallstoken-wie-für-strapi>`
@@ -41,27 +42,29 @@ Next.js (Beispiel in `./svhm-app/.env.sample`):
 
 ## 2. Strapi starten
 
-Atme tief durch. Es ist Zeit, die Strapi-Motoren hochzufahren. Navigiere zum `./my-projects/launchpad/strapi`-Ordner, indem du den folgenden Befehl ausführst:
+Atme tief durch. Es ist Zeit, die Strapi-Motoren hochzufahren. Navigiere zum `./svhm-web/svhm-strapi`-Ordner, indem du den folgenden Befehl ausführst:
 
-Navigiere zu deinem `./my-projects/launchpad/strapi`-Ordner mit `cd strapi` in der Kommandozeile.
+Navigiere zu deinem `./svhm-web/svhm-strapi`-Ordner mit `cd svhm-strapi` in der Kommandozeile.
 
 - Führe folgenden Befehl im `./svhm-web/svhm-strapi`-Ordner aus:
 
 ```
-yarn && yarn seed && yarn develop
+yarn
+yarn strapi import --force -f ../svhm-deploy/svhm-strapi/backup.tar.gz
+yarn develop
 ```
 
-Dies installiert die Abhängigkeiten, fügt die initialien Daten hinzu und startet den Server. (Du kannst die Befehle auch einzeln ausführen, aber warum nicht effizient sein?)
+Dies installiert die Abhängigkeiten, fügt die initialien Daten hinzu und startet den Server.
 
-## 3. Next.js starten
+## 3. React starten
 
-Wir sind fast bereit zum Abheben! Next.js ist deine schlanke, futuristische Schnittstelle, um all den großartigen Inhalt in die Welt zu bringen. 🚀
+Wir sind fast da! Die `App` ist dein schlanker, minimalistischer Zugang, um all den großartigen Inhalt in die Welt zu bringen. 🚀
 
-Navigiere zum `./my-projects/launchpad/next`-Ordner, indem du den folgenden Befehl ausführst:
+Navigiere zum `./svhm-web/svhm-app`-Ordner, indem du den folgenden Befehl ausführst:
 
-Navigiere zu deinem `./my-projects/launchpad/next`-Ordner mit `cd next` in der Kommandozeile.
+Navigiere zu deinem `./svhm-web/svhm-app`-Ordner mit `cd svhm-app` in der Kommandozeile.
 
-- Führe folgenden Befehl im `./launchpad/next`-Ordner aus:
+- Führe folgenden Befehl im `./svhm-web/svhm-app`-Ordner aus:
 
 ```
 yarn && yarn build && yarn start
@@ -69,21 +72,7 @@ yarn && yarn build && yarn start
 
 Dies installiert die Abhängigkeiten, baut dein Projekt und startet den Server. Du bist jetzt bereit!
 
-## Überblick über die Funktionen ✨
-
-### Benutzer
-
-<br />
-
-**An intuitive, minimal editor** The editor allows you to pull in dynamic blocks of content. It’s 100% open-source, and it’s fully extensible.<br />
-
-### Global
-
-<br />
-
-[Customizable API](https://strapi.io/features/customizable-api): Automatically build out the schema, models, controllers for your API from the editor. Get REST or GraphQL API out of the box without writing a single line of code.<br />
-
-## Resources
+## Resourcen
 
 [Docs](https://docs.strapi.io)
 
@@ -91,10 +80,10 @@ Dies installiert die Abhängigkeiten, baut dein Projekt und startet den Server. 
 
 - [ ] Shop
 
-## Customization
+## Anpassungen speziell für dieses Projekt
 
 - Die Strapi-Anwendung enthält eine benutzerdefinierte Middleware, um mehr Daten zu befüllen als standardmäßig vorgesehen. Du findest sie in der Datei `./strapi/src/middlewares/deepPopulate.ts`.
 
 - Die Strapi-Anwendung enthält ein Postinstall-Skript, das eine UUID für das Projekt neu generiert, um anonyme Nutzungsinformationen für diese Demo zu sammeln. Du kannst es deaktivieren, indem du die UUID in der Datei `./strapi/packages.json` entfernst.
 
-- Die Strapi-Anwendung enthält einen Patch für das Paket @strapi/admin. Dies ist nur für die gehosteten Demos notwendig, da wir automatisch Super-Admin-Benutzer für diese erstellen, wenn sie diese Demo auf unserer Website anfordern.
+- Die Strapi-Anwendung benutz das Documentation-PlugIn um eine API-Beschreibung zu generieren. Die App verwendet diese OpenAPI-Spezifikation um 'type-safe' die Daten von der Strapi-Anwendung zu beziehen. Dieser Prozess ist manuell anzustoßen nachdem Änderungen an den schemata der Strapi-Anwendung durchgeführt wurden.
