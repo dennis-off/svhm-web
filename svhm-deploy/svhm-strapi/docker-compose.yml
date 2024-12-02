@@ -27,7 +27,6 @@ services:
       
   svhm-strapiDB:
     container_name: svhm-strapiDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     env_file: .env
     image: postgres:14.5-alpine
