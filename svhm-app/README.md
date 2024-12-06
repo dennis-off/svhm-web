@@ -11,7 +11,7 @@ Baue die App mit wenigen Kommandos oder schaue dir die <a href="https://lucky-sa
 1. Klone das Repo
 
 ```bash
-git clone https://github.com/leoMirandaa/shadcn-landing-page.git
+git clone https://github.com/dennis-off/svhm-web.git
 ```
 
 2. Navigiere zum Projekt

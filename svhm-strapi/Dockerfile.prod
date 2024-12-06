@@ -24,13 +24,13 @@ COPY --from=build /opt/app ./
 ENV PATH=/opt/node_modules/.bin:$PATH
 
 RUN apk add --no-cache bash
-COPY secrets-to-env.sh /usr/local/bin/secrets.sh
-RUN dos2unix /usr/local/bin/secrets.sh
-RUN chmod +x /usr/local/bin/secrets.sh
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN dos2unix /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 RUN chown -R node:node /opt/app
 USER node
 EXPOSE 1337
 
-ENTRYPOINT ["secrets.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD  ["yarn", "start"]
