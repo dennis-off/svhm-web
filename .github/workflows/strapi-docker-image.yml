@@ -33,6 +33,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/svhm-strapi:latest
             ghcr.io/${{ github.repository_owner }}/svhm-strapi:${{ github.sha }}
           context: ./svhm-strapi
-          file: Dockerfile.prod
+          file: ./svhm-strapi/Dockerfile.prod
           build-args: |
             NODE_ENV=production
