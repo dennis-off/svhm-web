@@ -18,9 +18,13 @@ FROM nginx:1.27.2-alpine
 COPY ./nginx/nginx.conf /etc/nginx
 COPY --from=build /app/dist /var/www/html/
 
-COPY env.sh /docker-entrypoint.d/env.sh
-RUN dos2unix /docker-entrypoint.d/env.sh
-RUN chmod +x /docker-entrypoint.d/env.sh
+COPY 03-setup-env.sh /docker-entrypoint.d/03-setup-env.sh
+RUN dos2unix /docker-entrypoint.d/03-setup-env.sh
+RUN chmod +x /docker-entrypoint.d/03-setup-env.sh
+
+COPY 05-envsubst-in-dist.sh /docker-entrypoint.d/05-envsubst-in-dist.sh
+RUN dos2unix /docker-entrypoint.d/05-envsubst-in-dist.sh
+RUN chmod +x /docker-entrypoint.d/05-envsubst-in-dist.sh
 
 EXPOSE 3000
 

@@ -4,13 +4,12 @@ services:
     container_name: svhm-app
     image: ghcr.io/dennis-off/svhm-app:latest
     restart: unless-stopped
-    env_file: .env
     environment:
       APP_ENV_PREFIX: SVHMAPP
-      SVHMAPP_WEBSITE_URL: ${VITE_WEBSITE_URL}
-      SVHMAPP_PORT: ${VITE_PORT}
-      SVHMAPP_NEXT_PUBLIC_API_URL: ${VITE_NEXT_PUBLIC_API_URL}
-      SVHMAPP_PREVIEW_SECRET: ${VITE_PREVIEW_SECRET}
+      SVHMAPP_WEBSITE_URL: http://localhost:3000
+      SVHMAPP_PORT: 3000
+      SVHMAPP_NEXT_PUBLIC_API_URL: http://localhost:1337
+      SVHMAPP_PREVIEW_SECRET_FILE: /run/secrets/db-password
       NGINX_ENTRYPOINT_QUIET_LOGS: 1
       NODE_ENV: ${NODE_ENV}
     networks:
@@ -21,3 +20,5 @@ networks:
   svhm-strapi:
     name: svhm-strapi-network
     external: true
+secrets:
+  - db-password
