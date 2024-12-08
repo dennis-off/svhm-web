@@ -46,18 +46,18 @@ services:
     secrets:
       - db-password
 
-  svhm-strapiAdminer:
-    container_name: svhm-strapiAdminer
-    image: adminer
-    restart: unless-stopped
-    networks:
-      - svhm-strapi
-    ports:
-      - '9090:9090'
-    environment:
-      - ADMINER_DEFAULT_SERVER=svhm-strapiDB
-    depends_on:
-      - svhm-strapiDB
+  #svhm-strapiAdminer:
+  #  container_name: svhm-strapiAdminer
+  #  image: adminer
+  #  restart: unless-stopped
+  #  networks:
+  #    - svhm-strapi
+  #  ports:
+  #    - '9090:9090'
+  #  environment:
+  #    - ADMINER_DEFAULT_SERVER=svhm-strapiDB
+  #  depends_on:
+  #    - svhm-strapiDB
 
   svhm-app:
     container_name: svhm-app
@@ -74,6 +74,8 @@ services:
       - svhm-strapi
     ports:
       - '8080:8080'
+    secrets:
+      - db-password
       
 volumes:
   strapi-upload:
