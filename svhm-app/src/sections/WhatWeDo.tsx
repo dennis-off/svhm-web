@@ -6,8 +6,8 @@ import {
   LuCloudRain,
   LuDice6,
   LuGlassWater,
+  LuHandHelping,
   LuHeartHandshake,
-  LuHelpingHand,
   LuMedal,
   LuSchool,
   LuShield,
@@ -80,7 +80,7 @@ const features: FeatureProps[] = [
     title: "Ausflüge & Projekte",
     activities: [
       {
-        icon: <LuHelpingHand />,
+        icon: <LuHandHelping />,
         description:
           "Bezuschussung von Klassenfahrten der 3. und 4. Klasse für Mitgliedskinder",
       },
