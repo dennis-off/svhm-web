@@ -3,8 +3,8 @@ name: Strapi dockerize
 on:
   push:
     branches: ["main"]
-    #paths:
-    #  - "svhm-strapi/version.cfg"
+    paths:
+      - "svhm-strapi/version.cfg"
 
 jobs:
   build:
