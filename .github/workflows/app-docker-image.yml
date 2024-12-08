@@ -5,6 +5,10 @@ on:
     branches: ["main"]
     #paths:
     #  - "svhm-app/version.cfg"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "svhm-app/version.cfg"
 
 jobs:
   build:
@@ -25,12 +29,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push Multi-Arch Docker Image
-        uses: docker/build-push-action@v6
-        with:
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/svhm-app:latest
-            ghcr.io/${{ github.repository_owner }}/svhm-app:${{ github.sha }}
-          context: ./svhm-app
-          file: ./svhm-app/Dockerfile
+        run: |
+          cd svhm-app
+          docker buildx create --use --name multiarch-builder
+          docker buildx build --platform linux/amd64,linux/arm64 -t ghcr.io/${{ github.repository_owner }}/svhm-app:latest --push .
