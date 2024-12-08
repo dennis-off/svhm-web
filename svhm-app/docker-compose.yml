@@ -2,16 +2,15 @@ version: '3'
 services:
   svhm-app:
     container_name: svhm-app
-    image: ghcr.io/dennis-off/svhm-app:latest
+    image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
     restart: unless-stopped
     environment:
       APP_ENV_PREFIX: SVHMAPP
       SVHMAPP_WEBSITE_URL: http://localhost:3000
       SVHMAPP_PORT: 3000
-      SVHMAPP_NEXT_PUBLIC_API_URL: http://localhost:1337
+      SVHMAPP_NEXT_PUBLIC_API_URL: https://lucky-safe-bream.ngrok-free.app
       SVHMAPP_PREVIEW_SECRET_FILE: /run/secrets/db-password
-      NGINX_ENTRYPOINT_QUIET_LOGS: 1
-      NODE_ENV: ${NODE_ENV}
+      NODE_ENV: production
     networks:
       - svhm-strapi
     ports:

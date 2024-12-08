@@ -15,6 +15,8 @@ RUN yarn run build --mode=production
 
 FROM nginx:1.27.2-alpine
 
+RUN apk add --no-cache bash
+
 COPY ./nginx/nginx.conf /etc/nginx
 COPY --from=build /app/dist /var/www/html/
 
