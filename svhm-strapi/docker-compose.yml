@@ -68,7 +68,7 @@ services:
       SVHMAPP_WEBSITE_URL: http://localhost:3000
       SVHMAPP_PORT: 3000
       SVHMAPP_NEXT_PUBLIC_API_URL: https://lucky-safe-bream.ngrok-free.app
-      SVHMAPP_PREVIEW_SECRET_FILE: /run/secrets/db-password
+      SVHMAPP_PREVIEW_SECRET: +Powell12
       NODE_ENV: production
     networks:
       - svhm-strapi
