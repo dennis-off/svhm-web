@@ -28,7 +28,7 @@ COPY 05-envsubst-in-dist.sh /docker-entrypoint.d/05-envsubst-in-dist.sh
 RUN dos2unix /docker-entrypoint.d/05-envsubst-in-dist.sh
 RUN chmod +x /docker-entrypoint.d/05-envsubst-in-dist.sh
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx","-g","daemon off;"]
