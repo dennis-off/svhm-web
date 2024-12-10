@@ -3,6 +3,7 @@ version: '3.3'
 services:
   traefik:
     image: traefik:v2.9
+    restart: always
     command:
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
@@ -19,10 +20,11 @@ services:
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./letsencrypt:/letsencrypt
+      - letsencrypt_data:/letsencrypt
 
   frontend:
     image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
+    restart: unless-stopped
     environment:
       APP_ENV_PREFIX: SVHMAPP
       SVHMAPP_WEBSITE_URL: http://localhost:3000
@@ -42,11 +44,12 @@ services:
   
   backend:
     image: ghcr.io/dennis-off/svhm-strapi:${GIT_COMMIT_HASH:-latest}
+    restart: unless-stopped
     volumes:
-      - ./uploads:/app/public/uploads 
+      - strapi_data:/app/public/uploads 
     environment:
       DATABASE_CLIENT: postgres
-      DATABASE_HOST: svhm-strapiDB
+      DATABASE_HOST: db
       DATABASE_NAME: svhm
       DATABASE_USERNAME: svhm
       DATABASE_PORT: 5432
@@ -62,7 +65,7 @@ services:
       - db-password
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`api.lucky-safe-bream.ngrok-free.app`)
+      - traefik.http.routers.backend.rule=Host(`lucky-safe-bream.ngrok-free.app/api`)
       - traefik.http.routers.backend.entrypoints=websecure
       - traefik.http.routers.backend.tls.certresolver=myresolver
     depends_on:
@@ -70,17 +73,37 @@ services:
 
   db:
     image: postgres:14.5-alpine
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: svhm
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
       POSTGRES_DB: svhm
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     secrets:
       - db-password
     labels:
       - traefik.enable=false
+
+volumes:
+  strapi_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /data/strapi_data
+  db_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /data/db_data
+  letsencrypt_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /data/letsencrypt_data
 
 secrets:
   db-password:
