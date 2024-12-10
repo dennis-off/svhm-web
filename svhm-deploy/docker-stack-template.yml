@@ -17,7 +17,7 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
       POSTGRES_DB: svhm
     volumes:
-      - db-data:/var/lib/postgresql/data/ #using a volume
+      - db_data:/var/lib/postgresql/data/ #using a volume
     networks:
       - nw-backend
     secrets:
@@ -53,15 +53,16 @@ services:
       STRAPI_ADMIN_CLIENT_PREVIEW_SECRET: +Powell12
       NODE_ENV: production
     depends_on:
-      - mysql
+      - db
     volumes:
-      - wp_data:/var/www/html
-      - ./apps/wordpress/php.ini:/usr/local/etc/php/php.ini
+      - strapi_data:/opt/app/public
     networks:
       - nw-backend
+    secrets:
+      - db-password
 
-  nginx:
-    image: iiriix/nginx-wp:latest
+  web:
+    image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
     deploy:
       replicas: 1
       update_config:
@@ -87,23 +88,21 @@ services:
         - "traefik.http.middlewares.www-redir.redirectregex.permanent=true"
         ### Entrypoints
         # web
-        - "traefik.http.routers.myrouter-01.rule=Host(`example.com`, `www.example.com`)"
+        - "traefik.http.routers.myrouter-01.rule=Host(`lucky-safe-bream.ngrok-free.app`, `www.lucky-safe-bream.ngrok-free.app`)"
         - "traefik.http.routers.myrouter-01.entrypoints=web"
         - "traefik.http.routers.myrouter-01.middlewares=https-redir@docker"
         # websecure
-        - "traefik.http.routers.myrouter-02.rule=Host(`example.com`, `www.example.com`)"
+        - "traefik.http.routers.myrouter-02.rule=Host(`lucky-safe-bream.ngrok-free.app`, `www.lucky-safe-bream.ngrok-free.app`)"
         - "traefik.http.routers.myrouter-02.entrypoints=websecure"
         - "traefik.http.routers.myrouter-02.middlewares=www-redir@docker"
         - "traefik.http.routers.myrouter-02.tls=true"
         - "traefik.http.routers.myrouter-02.tls.certresolver=myCloudflare"
-        - "traefik.http.routers.myrouter-02.tls.domains[0].main=example.com"
-        - "traefik.http.routers.myrouter-02.tls.domains[0].sans=*.example.com"
+        - "traefik.http.routers.myrouter-02.tls.domains[0].main=lucky-safe-bream.ngrok-free.app"
+        - "traefik.http.routers.myrouter-02.tls.domains[0].sans=*.lucky-safe-bream.ngrok-free.app"
     depends_on:
-      - wordpress
-    volumes:
-      - ./apps/nginx/nginx_conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./apps/nginx/nginx_conf/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-      - wp_data:/var/www/html
+      - strapi
+    secrets:
+      - db-password
     networks:
       - nw-backend
       - nw-web
@@ -121,11 +120,11 @@ services:
         delay: 10s
         max_attempts: 10
         window: 15s
-      # ### Traefik Gui. Uncomment to get access on traefik.example.com.
+      # ### Traefik Gui. Uncomment to get access on traefik.lucky-safe-bream.ngrok-free.app.
       # labels:
       # - "traefik.enable=true"
       # - "traefik.http.services.traefik-gui.loadbalancer.server.port=8080"
-      # - "traefik.http.routers.traefik-gui.rule=Host(`traefik.example.com`)"
+      # - "traefik.http.routers.traefik-gui.rule=Host(`traefik.lucky-safe-bream.ngrok-free.app`)"
       # - "traefik.http.routers.traefik-gui.entrypoints=websecure"
       # - "traefik.http.routers.traefik-gui.service=api@internal"
       # - "traefik.http.routers.traefik-gui.middlewares=traefik-gui-auth"
@@ -135,26 +134,15 @@ services:
         constraints:
           - node.role == manager
     command:
-      - "--log=true"
-      - "--log.level=warn" # PANIC, FATAL, ERROR, WARN, INFO, DEBUG
-      # - "--accesslog=true"
-      - "--api.insecure=true"
-      # - "--api.debug=true"
-      - "--providers.docker=true"
-      - "--providers.docker.swarmMode=true"
+      - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=elliott@zenful.site"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.websecure.http.tls=true"
-      ## Certificate Resolver: cloudflare, type=dnsChallenge
-      - "--certificatesResolvers.myCloudflare.acme.email=postmaster@example.com"
-      - "--certificatesResolvers.myCloudflare.acme.storage=/data/acme.json"
-      - "--certificatesResolvers.myCloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory" # Staging. Comment this for Production.
-      - "--certificatesResolvers.myCloudflare.acme.dnsChallenge=true"
-      - "--certificatesResolvers.myCloudflare.acme.dnsChallenge.provider=cloudflare"
-      - "--certificatesResolvers.myCloudflare.acme.dnsChallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
-    environment:
-      CF_DNS_API_TOKEN: cloudflare_api_token
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     ports:
       - published: 80
         target: 80
@@ -171,18 +159,18 @@ services:
       - nw-web
 
 volumes:
-  wp_data:
+  strapi_data:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /data/wp_data
-  mysql_data:
+      device: /data/strapi_data
+  db_data:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: /data/mysql_data
+      device: /data/db_data
   letsencrypt_data:
     driver: local
     driver_opts:

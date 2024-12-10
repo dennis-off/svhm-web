@@ -1,9 +1,49 @@
-version: '3'
+version: '3.3'
+
 services:
-  svhm-strapi:
-    container_name: svhm-strapi
+  traefik:
+    image: traefik:v2.9
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entryPoint.scheme=https
+      - --entrypoints.web.http.redirections.entrypoint.permanent=true
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=admin@lucky-safe-bream.ngrok-free.app
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+
+  frontend:
+    image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
+    environment:
+      APP_ENV_PREFIX: SVHMAPP
+      SVHMAPP_WEBSITE_URL: http://localhost:3000
+      SVHMAPP_PORT: 3000
+      SVHMAPP_NEXT_PUBLIC_API_URL: https://api.lucky-safe-bream.ngrok-free.app
+      SVHMAPP_PREVIEW_SECRET: +Powell12
+      NODE_ENV: production
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.frontend.rule=Host(`lucky-safe-bream.ngrok-free.app`) || Host(`www.lucky-safe-bream.ngrok-free.app`)
+      - traefik.http.routers.frontend.entrypoints=websecure
+      - traefik.http.routers.frontend.tls.certresolver=myresolver
+      - traefik.http.routers.frontend.middlewares=www
+      - traefik.http.middlewares.www.redirectregex.regex=^https://www.lucky-safe-bream.ngrok-free.app/(.*)
+      - traefik.http.middlewares.www.redirectregex.replacement=https://lucky-safe-bream.ngrok-free.app/$$1
+      - traefik.http.middlewares.www.redirectregex.permanent=true
+  
+  backend:
     image: ghcr.io/dennis-off/svhm-strapi:${GIT_COMMIT_HASH:-latest}
-    restart: unless-stopped
+    volumes:
+      - ./uploads:/app/public/uploads 
     environment:
       DATABASE_CLIENT: postgres
       DATABASE_HOST: svhm-strapiDB
@@ -18,73 +58,29 @@ services:
       STRAPI_ADMIN_CLIENT_URL: https://lucky-safe-bream.ngrok-free.app
       STRAPI_ADMIN_CLIENT_PREVIEW_SECRET: +Powell12
       NODE_ENV: production
-    volumes:
-      - strapi-upload:/opt/app/public
-    networks:
-      - svhm-strapi
-    ports:
-      - '1337:1337'
     secrets:
       - db-password
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backend.rule=Host(`api.lucky-safe-bream.ngrok-free.app`)
+      - traefik.http.routers.backend.entrypoints=websecure
+      - traefik.http.routers.backend.tls.certresolver=myresolver
     depends_on:
-      - svhm-strapiDB
-      
-  svhm-strapiDB:
-    container_name: svhm-strapiDB
-    restart: unless-stopped
+      - db
+
+  db:
     image: postgres:14.5-alpine
+    restart: always
     environment:
       POSTGRES_USER: svhm
       POSTGRES_PASSWORD_FILE: /run/secrets/db-password
       POSTGRES_DB: svhm
     volumes:
-      - db-data:/var/lib/postgresql/data/ #using a volume
-    networks:
-      - svhm-strapi
-    ports:
-      - '5432:5432'
+      - ./data:/var/lib/postgresql/data
     secrets:
       - db-password
-
-  #svhm-strapiAdminer:
-  #  container_name: svhm-strapiAdminer
-  #  image: adminer
-  #  restart: unless-stopped
-  #  networks:
-  #    - svhm-strapi
-  #  ports:
-  #    - '9090:9090'
-  #  environment:
-  #    - ADMINER_DEFAULT_SERVER=svhm-strapiDB
-  #  depends_on:
-  #    - svhm-strapiDB
-
-  svhm-app:
-    container_name: svhm-app
-    image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
-    restart: unless-stopped
-    environment:
-      APP_ENV_PREFIX: SVHMAPP
-      SVHMAPP_WEBSITE_URL: http://localhost:3000
-      SVHMAPP_PORT: 3000
-      SVHMAPP_NEXT_PUBLIC_API_URL: https://lucky-safe-bream.ngrok-free.app
-      SVHMAPP_PREVIEW_SECRET: +Powell12
-      NODE_ENV: production
-    networks:
-      - svhm-strapi
-    ports:
-      - '8080:8080'
-    secrets:
-      - db-password
-      
-volumes:
-  strapi-upload:
-  db-data:
-
-networks:
-  svhm-strapi:
-    name: svhm-strapi-network
-    driver: overlay
+    labels:
+      - traefik.enable=false
 
 secrets:
   db-password:

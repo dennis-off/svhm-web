@@ -3,13 +3,8 @@ name: App dockerize
 on:
   push:
     branches: ["main"]
-    #paths:
-    #  - "svhm-app/version.cfg"
-  pull_request:
-    branches: ["main"]
     paths:
       - "svhm-app/version.cfg"
-
 jobs:
   build:
     runs-on: ubuntu-latest
