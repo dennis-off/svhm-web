@@ -35,7 +35,7 @@ export const HeroCards = () => {
           </div>
         </CardHeader>
 
-        <CardContent>Der Schulverein ist wirklich ein toll!</CardContent>
+        <CardContent>Der Schulverein ist wirklich toll!</CardContent>
       </Card>
 
       {/* Team */}

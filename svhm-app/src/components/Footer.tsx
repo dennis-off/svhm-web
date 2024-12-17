@@ -60,24 +60,11 @@ export const Footer = ({
             <a
               rel="noreferrer noopener"
               target="_blank"
-              href="https://www.linkedin.com/in/leopoldo-miranda/"
+              href="https://github.com/dennis-off/svhm-web"
               className="border-primary text-primary transition-all hover:border-b-2"
             >
               In de Masch
             </a>
-          </h3>
-
-          <h3>
-            {"("}Inspiriert von{" "}
-            <a
-              rel="noreferrer noopener"
-              target="_blank"
-              href="https://www.linkedin.com/in/leopoldo-miranda/"
-              className="border-primary text-primary transition-all hover:border-b-2"
-            >
-              Leo Miranda
-            </a>
-            {")"}
           </h3>
         </section>
       </footer>
