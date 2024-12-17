@@ -3,50 +3,81 @@ version: '3.3'
 services:
   traefik:
     image: traefik:v2.9
-    restart: always
     command:
+      - --api.dashboard=true
+      - --metrics.prometheus
+      # Docker
       - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
+      - --providers.docker.swarmMode=true
+      - --providers.docker.defaultRule=Host(`.${HOST}`) # Similar to the old --domain flag, this sets the default name for services
+      - --providers.docker.exposedByDefault=false
+      # Entrypoints
       - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
-      - --entrypoints.web.http.redirections.entryPoint.scheme=https
-      - --entrypoints.web.http.redirections.entrypoint.permanent=true
-      - --certificatesresolvers.myresolver.acme.tlschallenge=true
-      - --certificatesresolvers.myresolver.acme.email=admin@lucky-safe-bream.ngrok-free.app
-      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      #- --entrypoints.websecure.address=:443
+      # Certs
+      #- --certificatesresolvers.le.acme.httpchallenge=true
+      #- --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+      #- --certificatesresolvers.le.acme.email=dennis_off@web.de
+      #- --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json # Store in volume
+      # Auto TLS
+      #- --entrypoints.websecure.http.tls=true
+      #- --entrypoints.websecure.http.tls.certresolver=le
+      # Auto redirection
+      #- --entrypoints.web.http.redirections.entrypoint.to=websecure
+      #- --entrypoints.web.http.redirections.entrypoint.scheme=https
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - letsencrypt_data:/letsencrypt
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.role==manager] # Pin to your manager node (also makes the volume only in 1 spot, assuming you have 1 manager)
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+      labels: # Self-expose traefik dashboard behind password.  Use `traefik.${HOST}`
+        - "traefik.enable=true"
+        - "traefik.http.routers.traefik-dash.rule=Host(`${HOST}`) && PathPrefix(`/dashboard`)"
+        - "traefik.http.routers.traefik-dash.entrypoints=web"
+        - "traefik.http.routers.traefik-dash.service=api@internal"
+        - "traefik.http.routers.traefik-dash.middlewares=traefik-auth"
+        - "traefik.http.middlewares.traefik-auth.basicauth.users=${GLOBAL_HTPASSWD}"
+        - "traefik.http.services.traefik-dash.loadbalancer.server.port=8080"
+      resources:
+        limits: { cpus: '0.5', memory: '64M' }
+        reservations: { cpus: '0.1', memory: '32M' }
 
   frontend:
     image: ghcr.io/dennis-off/svhm-app:${GIT_COMMIT_HASH:-latest}
     restart: unless-stopped
     environment:
       APP_ENV_PREFIX: SVHMAPP
-      SVHMAPP_WEBSITE_URL: http://localhost:3000
-      SVHMAPP_PORT: 3000
-      SVHMAPP_NEXT_PUBLIC_API_URL: https://api.lucky-safe-bream.ngrok-free.app
+      SVHMAPP_NEXT_PUBLIC_API_URL: https://lucky-safe-bream.ngrok-free.app
       SVHMAPP_PREVIEW_SECRET: +Powell12
       NODE_ENV: production
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`lucky-safe-bream.ngrok-free.app`) || Host(`www.lucky-safe-bream.ngrok-free.app`)
-      - traefik.http.routers.frontend.entrypoints=websecure
-      - traefik.http.routers.frontend.tls.certresolver=myresolver
-      - traefik.http.routers.frontend.middlewares=www
-      - traefik.http.middlewares.www.redirectregex.regex=^https://www.lucky-safe-bream.ngrok-free.app/(.*)
-      - traefik.http.middlewares.www.redirectregex.replacement=https://lucky-safe-bream.ngrok-free.app/$$1
-      - traefik.http.middlewares.www.redirectregex.permanent=true
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.frontend.rule=Host(`lucky-safe-bream.ngrok-free.app`)
+        - traefik.http.routers.frontend.entrypoints=web
+        - traefik.http.services.frontend.loadbalancer.server.port=80
+        - traefik.http.middlewares.gzip.compress=true
+    depends_on:
+      - backend
   
   backend:
     image: ghcr.io/dennis-off/svhm-strapi:${GIT_COMMIT_HASH:-latest}
     restart: unless-stopped
     volumes:
-      - strapi_data:/app/public/uploads 
+      - strapi_data:/opt/app/public 
     environment:
       DATABASE_CLIENT: postgres
       DATABASE_HOST: db
@@ -63,11 +94,13 @@ services:
       NODE_ENV: production
     secrets:
       - db-password
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=Host(`lucky-safe-bream.ngrok-free.app/api`)
-      - traefik.http.routers.backend.entrypoints=websecure
-      - traefik.http.routers.backend.tls.certresolver=myresolver
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.backend.rule=Host(`lucky-safe-bream.ngrok-free.app`) && (PathPrefix(`/admin`) || PathPrefix(`/api`) || PathPrefix(`/upload`) || PathPrefix(`/uploads`)|| PathPrefix(`/content-manager`))
+        - traefik.http.routers.backend.entrypoints=web
+        - traefik.http.services.backend.loadbalancer.server.port=1337
     depends_on:
       - db
 
@@ -82,9 +115,10 @@ services:
       - db_data:/var/lib/postgresql/data
     secrets:
       - db-password
-    labels:
-      - traefik.enable=false
-
+    deploy:
+      replicas: 1
+      labels:
+        - traefik.enable=false
 volumes:
   strapi_data:
     driver: local
