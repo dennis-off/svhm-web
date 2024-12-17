@@ -3470,6 +3470,7 @@ export interface components {
                 /** @example string or id */
                 avatar?: number | string;
                 displayRole: string;
+                statement?: string;
                 locale?: string;
                 localizations?: (number | string)[];
             };
@@ -3708,6 +3709,7 @@ export interface components {
                 }[];
             };
             displayRole: string;
+            statement?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -3778,6 +3780,7 @@ export interface components {
                     }[];
                 };
                 displayRole?: string;
+                statement?: string;
                 /** Format: date-time */
                 createdAt?: string;
                 /** Format: date-time */

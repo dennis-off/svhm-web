@@ -173,6 +173,7 @@ export interface SharedMember extends Struct.ComponentSchema {
     role: Schema.Attribute.Enumeration<
       ['president', 'vice-president', 'treasurer', 'board-member', 'secratary']
     >;
+    statement: Schema.Attribute.Text;
   };
 }
 

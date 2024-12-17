@@ -31,7 +31,7 @@ export const HeroCards = () => {
 
           <div className="flex flex-col">
             <CardTitle className="text-lg">Dennis Off</CardTitle>
-            <CardDescription>@doeOffbourne</CardDescription>
+            <CardDescription>dennis@off.me</CardDescription>
           </div>
         </CardHeader>
 

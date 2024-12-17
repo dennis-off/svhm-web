@@ -778,6 +778,7 @@ export interface ApiMemberMember extends Struct.CollectionTypeSchema {
     role: Schema.Attribute.Enumeration<['board', 'council', 'member']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'member'>;
+    statement: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

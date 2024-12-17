@@ -27,9 +27,12 @@ export function MemberCard({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pb-2 text-center">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-      </CardContent>
+      {member.statement && (
+        <CardContent className="pb-2 text-center">
+          <p>{member.statement}</p>
+        </CardContent>
+      )}
+
     </Card>
   );
 }

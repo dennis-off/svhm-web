@@ -32,6 +32,9 @@
         "videos",
         "audios"
       ]
+    },
+    "statement": {
+      "type": "text"
     }
   }
 }
